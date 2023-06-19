@@ -17,6 +17,7 @@ defmodule WineCellar do
   defp filter_by_year(wines, year)
   defp filter_by_year(wines, nil), do: wines
   defp filter_by_year([], _year), do: []
+
   defp filter_by_year([{_, year, _} = wine | tail], year) do
     [wine | filter_by_year(tail, year)]
   end

@@ -14,6 +14,7 @@ defmodule PaintByNumber do
 
   @spec get_first_pixel(bitstring, pos_integer) :: nil | binary
   def get_first_pixel(<<>>, _), do: nil
+
   def get_first_pixel(picture, color_count) do
     name_size = palette_bit_size(color_count)
     <<value::size(name_size), _::bitstring>> = picture
@@ -22,6 +23,7 @@ defmodule PaintByNumber do
 
   @spec drop_first_pixel(bitstring, pos_integer) :: bitstring
   def drop_first_pixel(<<>>, _), do: <<>>
+
   def drop_first_pixel(picture, color_count) do
     name_size = palette_bit_size(color_count)
     <<_::size(name_size), rest::bitstring>> = picture
