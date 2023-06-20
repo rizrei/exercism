@@ -52,7 +52,7 @@ defmodule LinkedList do
   """
   @spec from_list(list()) :: t
   def from_list([]), do: {}
-  def from_list([h|t]), do: {h, from_list(t)}
+  def from_list([h | t]), do: {h, from_list(t)}
 
   @doc """
   Construct a stdlib List LinkedList from a LinkedList
