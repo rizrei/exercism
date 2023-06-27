@@ -1,5 +1,5 @@
 defmodule LinkedListTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   test "count/1 of new list" do
     list = LinkedList.new()

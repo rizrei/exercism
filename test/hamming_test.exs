@@ -1,5 +1,5 @@
 defmodule HammingTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   test "empty strands" do
     assert Hamming.hamming_distance(~c"", ~c"") == {:ok, 0}

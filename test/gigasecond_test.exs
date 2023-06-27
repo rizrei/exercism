@@ -1,5 +1,5 @@
 defmodule GigasecondTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   # @tag :pending
   test "from 2011-04-25 00:00:00" do
     assert Gigasecond.from({{2011, 4, 25}, {0, 0, 0}}) == {{2043, 1, 1}, {1, 46, 40}}

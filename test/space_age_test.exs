@@ -1,5 +1,5 @@
 defmodule SpaceAgeTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   # @tag :pending
   test "age on Earth" do
     input = 1_000_000_000

@@ -1,5 +1,5 @@
 defmodule ResistorColorDuoTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   # @tag :pending
   test "Brown and black" do
     colors = [:brown, :black]

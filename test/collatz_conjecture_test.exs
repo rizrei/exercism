@@ -1,5 +1,5 @@
 defmodule CollatzConjectureTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   test "zero steps for one" do
     assert CollatzConjecture.calc(1) == 0

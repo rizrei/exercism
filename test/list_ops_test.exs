@@ -1,6 +1,6 @@
 defmodule ListOpsTest do
   alias ListOps, as: L
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   defp odd?(n), do: rem(n, 2) == 1
 
   describe "count" do

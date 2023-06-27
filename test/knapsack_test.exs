@@ -1,5 +1,5 @@
 defmodule KnapsackTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   # @tag :pending
   test "no items" do
     items = []

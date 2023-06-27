@@ -1,5 +1,5 @@
 defmodule StrainTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   defp is_odd?(n), do: rem(n, 2) == 1
   defp is_even?(n), do: rem(n, 2) == 0
 

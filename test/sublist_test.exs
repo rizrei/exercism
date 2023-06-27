@@ -1,5 +1,5 @@
 defmodule SublistTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   # @tag :pending
   test "empty equals empty" do
     assert Sublist.compare([], []) == :equal

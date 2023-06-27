@@ -1,5 +1,5 @@
 defmodule AllYourBaseTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   test "convert single bit one to decimal" do
     assert AllYourBase.convert([1], 2, 10) == {:ok, [1]}

@@ -1,5 +1,5 @@
 defmodule TriangleTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   # @tag :pending
   test "equilateral triangles have equal sides" do
     assert Triangle.kind(2, 2, 2) == {:ok, :equilateral}

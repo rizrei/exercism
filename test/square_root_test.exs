@@ -1,5 +1,5 @@
 defmodule SquareRootTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   # @tag :pending
   test "root of 1" do
     radicand = 1

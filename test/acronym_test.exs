@@ -1,5 +1,5 @@
 defmodule AcronymTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   test "it produces acronyms from title case" do
     assert Acronym.abbreviate("Portable Networks Graphic") === "PNG"

@@ -1,5 +1,5 @@
 defmodule RunLengthEncoderTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   describe "encode" do
     test "encode empty string" do

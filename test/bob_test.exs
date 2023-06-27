@@ -1,5 +1,5 @@
 defmodule BobTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   test "stating something" do
     assert Bob.hey("Tom-ay-to, tom-aaaah-to.") == "Whatever."

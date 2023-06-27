@@ -1,5 +1,5 @@
 defmodule RnaTranscriptionTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   # @tag :pending
   test "empty RNA sequence" do
     assert RnaTranscription.to_rna(~c"") == ~c""

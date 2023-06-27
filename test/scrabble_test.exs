@@ -1,5 +1,5 @@
 defmodule ScrabbleTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   # @tag :pending
   test "empty word scores zero" do
     assert Scrabble.score("") == 0
