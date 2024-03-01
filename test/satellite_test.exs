@@ -1,5 +1,5 @@
 defmodule SatelliteTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   # @tag :pending
   test "Empty tree" do
     preorder = []
@@ -8,7 +8,6 @@ defmodule SatelliteTest do
     assert Satellite.build_tree(preorder, inorder) == {:ok, tree}
   end
 
-  @tag :pending
   test "Tree with one item" do
     preorder = [:a]
     inorder = [:a]
@@ -16,7 +15,6 @@ defmodule SatelliteTest do
     assert Satellite.build_tree(preorder, inorder) == {:ok, tree}
   end
 
-  @tag :pending
   test "Tree with many items" do
     preorder = ~w(a i x f r)a
     inorder = ~w(i a f x r)a
@@ -24,7 +22,6 @@ defmodule SatelliteTest do
     assert Satellite.build_tree(preorder, inorder) == {:ok, tree}
   end
 
-  @tag :pending
   test "Reject traversals of different length" do
     preorder = [:a, :b]
     inorder = [:b, :a, :r]
@@ -32,7 +29,6 @@ defmodule SatelliteTest do
     assert Satellite.build_tree(preorder, inorder) == error
   end
 
-  @tag :pending
   test "Reject inconsistent traversals of same length" do
     preorder = [:x, :y, :z]
     inorder = [:a, :b, :c]
@@ -40,7 +36,6 @@ defmodule SatelliteTest do
     assert Satellite.build_tree(preorder, inorder) == error
   end
 
-  @tag :pending
   test "Reject traversals with repeated items" do
     preorder = [:a, :b, :a]
     inorder = [:b, :a, :a]

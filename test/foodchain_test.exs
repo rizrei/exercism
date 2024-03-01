@@ -1,5 +1,5 @@
 defmodule FoodChainTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   # @tag :pending
   test "fly" do
     start = 1
@@ -14,7 +14,6 @@ defmodule FoodChainTest do
     assert output == expected
   end
 
-  @tag :pending
   test "spider" do
     start = 2
     stop = 2
@@ -30,7 +29,6 @@ defmodule FoodChainTest do
     assert output == expected
   end
 
-  @tag :pending
   test "bird" do
     start = 3
     stop = 3
@@ -47,7 +45,6 @@ defmodule FoodChainTest do
     assert output == expected
   end
 
-  @tag :pending
   test "cat" do
     start = 4
     stop = 4
@@ -65,7 +62,6 @@ defmodule FoodChainTest do
     assert output == expected
   end
 
-  @tag :pending
   test "dog" do
     start = 5
     stop = 5
@@ -84,7 +80,6 @@ defmodule FoodChainTest do
     assert output == expected
   end
 
-  @tag :pending
   test "goat" do
     start = 6
     stop = 6
@@ -104,7 +99,6 @@ defmodule FoodChainTest do
     assert output == expected
   end
 
-  @tag :pending
   test "cow" do
     start = 7
     stop = 7
@@ -125,7 +119,6 @@ defmodule FoodChainTest do
     assert output == expected
   end
 
-  @tag :pending
   test "horse" do
     start = 8
     stop = 8
@@ -139,7 +132,6 @@ defmodule FoodChainTest do
     assert output == expected
   end
 
-  @tag :pending
   test "multiple verses" do
     start = 1
     stop = 3
@@ -164,7 +156,6 @@ defmodule FoodChainTest do
     assert output == expected
   end
 
-  @tag :pending
   test "full song" do
     start = 1
     stop = 8

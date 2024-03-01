@@ -1,5 +1,5 @@
 defmodule BinarySearchTreeTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   test "data is retained" do
     root = BinarySearchTree.new(4)
@@ -9,7 +9,6 @@ defmodule BinarySearchTreeTest do
   end
 
   describe "insert data at proper node" do
-    @tag :pending
     test "smaller number at left node" do
       root =
         BinarySearchTree.new(4)
@@ -22,7 +21,6 @@ defmodule BinarySearchTreeTest do
       assert root.right == nil
     end
 
-    @tag :pending
     test "same number at left node" do
       root =
         BinarySearchTree.new(4)
@@ -35,7 +33,6 @@ defmodule BinarySearchTreeTest do
       assert root.right == nil
     end
 
-    @tag :pending
     test "greater number at right node" do
       root =
         BinarySearchTree.new(4)
@@ -49,7 +46,6 @@ defmodule BinarySearchTreeTest do
     end
   end
 
-  @tag :pending
   test "can create complex tree" do
     root =
       BinarySearchTree.new(4)
@@ -78,13 +74,11 @@ defmodule BinarySearchTreeTest do
   end
 
   describe "can sort data" do
-    @tag :pending
     test "can sort single number" do
       root = BinarySearchTree.new(2)
       assert [2] == BinarySearchTree.in_order(root)
     end
 
-    @tag :pending
     test "can sort if second number is smaller than first" do
       root =
         BinarySearchTree.new(2)
@@ -93,7 +87,6 @@ defmodule BinarySearchTreeTest do
       assert [1, 2] == BinarySearchTree.in_order(root)
     end
 
-    @tag :pending
     test "can sort if second number is the same as the first" do
       root =
         BinarySearchTree.new(2)
@@ -102,7 +95,6 @@ defmodule BinarySearchTreeTest do
       assert [2, 2] == BinarySearchTree.in_order(root)
     end
 
-    @tag :pending
     test "can sort if second number is greater than the first" do
       root =
         BinarySearchTree.new(2)
@@ -111,7 +103,6 @@ defmodule BinarySearchTreeTest do
       assert [2, 3] == BinarySearchTree.in_order(root)
     end
 
-    @tag :pending
     test "can sort complex tree" do
       root =
         BinarySearchTree.new(2)

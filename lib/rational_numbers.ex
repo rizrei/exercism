@@ -1,5 +1,5 @@
 defmodule RationalNumbers do
-  @type rational :: {integer, integer}
+  @type rational :: {float, float}
 
   @doc """
   Add two rational numbers

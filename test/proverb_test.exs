@@ -1,5 +1,5 @@
 defmodule ProverbTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   # @tag :pending
   test "zero pieces" do
     strings = []
@@ -8,7 +8,6 @@ defmodule ProverbTest do
     assert output == expected
   end
 
-  @tag :pending
   test "one piece" do
     strings = ["nail"]
     output = Proverb.recite(strings)
@@ -20,7 +19,6 @@ defmodule ProverbTest do
     assert output == expected
   end
 
-  @tag :pending
   test "two pieces" do
     strings = ["nail", "shoe"]
     output = Proverb.recite(strings)
@@ -33,7 +31,6 @@ defmodule ProverbTest do
     assert output == expected
   end
 
-  @tag :pending
   test "three pieces" do
     strings = ["nail", "shoe", "horse"]
     output = Proverb.recite(strings)
@@ -47,7 +44,6 @@ defmodule ProverbTest do
     assert output == expected
   end
 
-  @tag :pending
   test "full proverb" do
     strings = ["nail", "shoe", "horse", "rider", "message", "battle", "kingdom"]
     output = Proverb.recite(strings)
@@ -65,7 +61,6 @@ defmodule ProverbTest do
     assert output == expected
   end
 
-  @tag :pending
   test "four pieces modernized" do
     strings = ["pin", "gun", "soldier", "battle"]
     output = Proverb.recite(strings)

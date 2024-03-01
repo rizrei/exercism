@@ -1,5 +1,5 @@
 defmodule ETLTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   # @tag :pending
   test "single letter" do
     old = %{1 => ["A"]}
@@ -7,14 +7,12 @@ defmodule ETLTest do
     assert ETL.transform(old) == expected
   end
 
-  @tag :pending
   test "single score with multiple letters" do
     old = %{1 => ~W(A E I O U)}
     expected = %{"a" => 1, "e" => 1, "i" => 1, "o" => 1, "u" => 1}
     assert ETL.transform(old) == expected
   end
 
-  @tag :pending
   test "multiple scores with multiple letters" do
     old = %{1 => ["A", "E"], 2 => ["D", "G"]}
 
@@ -28,7 +26,6 @@ defmodule ETLTest do
     assert ETL.transform(old) == expected
   end
 
-  @tag :pending
   test "multiple scores with differing numbers of letters" do
     old = %{
       1 => ~W(A E I O U L N R S T),
