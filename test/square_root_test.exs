@@ -1,6 +1,6 @@
 defmodule SquareRootTest do
   use ExUnit.Case, async: true
-  # @tag :pending
+
   test "root of 1" do
     radicand = 1
     output = SquareRoot.calculate(radicand)

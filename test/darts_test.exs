@@ -1,6 +1,6 @@
 defmodule DartsTest do
   use ExUnit.Case, async: true
-  # @tag :pending
+
   test "Missed target" do
     assert Darts.score({-9, 9}) == 0
   end

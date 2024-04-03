@@ -1,6 +1,6 @@
 defmodule YachtTest do
   use ExUnit.Case, async: true
-  # @tag :pending
+
   test "Yacht" do
     assert Yacht.score(:yacht, [5, 5, 5, 5, 5]) == 50
   end

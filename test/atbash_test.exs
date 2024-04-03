@@ -2,7 +2,6 @@ defmodule AtbashTest do
   use ExUnit.Case, async: true
 
   describe "encode" do
-    # @tag :pending
     test "yes" do
       assert Atbash.encode("yes") == "bvh"
     end

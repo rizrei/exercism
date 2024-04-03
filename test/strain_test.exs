@@ -4,7 +4,6 @@ defmodule StrainTest do
   defp is_even?(n), do: rem(n, 2) == 0
 
   describe "keep" do
-    # @tag :pending
     test "on empty list returns empty list" do
       assert Strain.keep([], fn _ -> true end) == []
     end

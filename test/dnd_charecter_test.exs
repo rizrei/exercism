@@ -3,7 +3,6 @@ defmodule DndCharacterTest do
   import DndCharacter, only: [modifier: 1, ability: 0, character: 0]
 
   describe "ability modifier" do
-    # @tag :pending
     test "for score 3 is -4" do
       assert modifier(3) === -4
     end

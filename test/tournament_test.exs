@@ -1,6 +1,6 @@
 defmodule TournamentTest do
   use ExUnit.Case, async: true
-  # @tag :pending
+
   test "just the header if no input" do
     input = []
 

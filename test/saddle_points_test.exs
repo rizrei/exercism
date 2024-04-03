@@ -2,7 +2,6 @@ defmodule SaddlePointsTest do
   use ExUnit.Case, async: true
 
   describe "rows" do
-    # @tag :pending
     test "extract rows" do
       rows = SaddlePoints.rows("1 2\n10 20")
       assert rows == [[1, 2], [10, 20]]

@@ -1,6 +1,6 @@
 defmodule MatchingBracketsTest do
   use ExUnit.Case, async: true
-  # @tag :pending
+
   test "paired square brackets" do
     assert MatchingBrackets.check_brackets("[]")
   end

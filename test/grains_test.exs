@@ -1,6 +1,6 @@
 defmodule GrainsTest do
   use ExUnit.Case, async: true
-  # @tag :pending
+
   test "square 1" do
     assert Grains.square(1) === {:ok, 1}
   end

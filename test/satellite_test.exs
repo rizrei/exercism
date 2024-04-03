@@ -1,6 +1,6 @@
 defmodule SatelliteTest do
   use ExUnit.Case, async: true
-  # @tag :pending
+
   test "Empty tree" do
     preorder = []
     inorder = []

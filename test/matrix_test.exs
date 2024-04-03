@@ -2,7 +2,6 @@ defmodule MatrixTest do
   use ExUnit.Case, async: true
 
   describe "row" do
-    # @tag :pending
     test "extract row from one number matrix" do
       matrix = Matrix.from_string("1")
       assert Matrix.row(matrix, 1) == [1]

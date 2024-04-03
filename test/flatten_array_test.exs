@@ -1,6 +1,6 @@
 defmodule FlattenArrayTest do
   use ExUnit.Case, async: true
-  # @tag :pending
+
   test "empty" do
     assert FlattenArray.flatten([]) ==
              []

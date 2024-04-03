@@ -1,6 +1,6 @@
 defmodule ProverbTest do
   use ExUnit.Case, async: true
-  # @tag :pending
+
   test "zero pieces" do
     strings = []
     output = Proverb.recite(strings)

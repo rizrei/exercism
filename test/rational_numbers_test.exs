@@ -2,7 +2,6 @@ defmodule RationalNumbersTest do
   use ExUnit.Case, async: true
 
   describe "Addition" do
-    # @tag :pending
     test "Add two positive rational numbers" do
       assert RationalNumbers.add({1, 2}, {2, 3}) == {7, 6}
     end

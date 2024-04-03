@@ -2,7 +2,6 @@ defmodule SquaresTest do
   use ExUnit.Case, async: true
 
   describe "square_of_sum" do
-    # @tag :pending
     test "square of sum to 1" do
       assert Squares.square_of_sum(1) == 1
     end

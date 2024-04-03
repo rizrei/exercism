@@ -1,6 +1,6 @@
 defmodule PrimeTest do
   use ExUnit.Case, async: true
-  # @tag :pending
+
   test "first prime" do
     assert Prime.nth(1) == 2
   end

@@ -1,6 +1,6 @@
 defmodule ArmstrongNumberTest do
   use ExUnit.Case, async: true
-  # @tag :pending
+
   test "Zero is an Armstrong number" do
     assert ArmstrongNumber.valid?(0)
   end

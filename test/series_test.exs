@@ -1,6 +1,6 @@
 defmodule SeriesTest do
   use ExUnit.Case, async: true
-  # @tag :pending
+
   test "largest product if span equals length" do
     assert Series.largest_product("29", 2) == 18
   end

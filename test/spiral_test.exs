@@ -1,6 +1,6 @@
 defmodule SpiralTest do
   use ExUnit.Case, async: true
-  # @tag :pending
+
   test "empty spiral" do
     assert Spiral.matrix(0) == []
   end

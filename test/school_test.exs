@@ -11,7 +11,6 @@ defmodule SchoolTest do
     {Enum.reverse(results), school}
   end
 
-  # @tag :pending
   test "Roster is empty when no student is added" do
     assert School.roster(School.new()) == []
   end

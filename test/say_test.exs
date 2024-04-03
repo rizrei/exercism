@@ -1,6 +1,6 @@
 defmodule SayTest do
   use ExUnit.Case, async: true
-  # @tag :pending
+
   test "zero" do
     assert Say.in_english(0) == {:ok, "zero"}
   end

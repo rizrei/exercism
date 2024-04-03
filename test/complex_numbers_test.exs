@@ -11,7 +11,6 @@ defmodule ComplexNumbersTest do
   end
 
   describe "Real part" do
-    # @tag :pending
     test "Real part of a purely real number" do
       z = {1, 0}
       output = ComplexNumbers.real(z)

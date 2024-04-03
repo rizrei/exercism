@@ -1,6 +1,6 @@
 defmodule AnagramTest do
   use ExUnit.Case, async: true
-  # @tag :pending
+
   test "no matches" do
     matches = Anagram.match("diaper", ~w(hello world zombies pants))
     assert matches == []

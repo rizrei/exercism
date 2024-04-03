@@ -1,6 +1,6 @@
 defmodule StringSeriesTest do
   use ExUnit.Case, async: true
-  # @tag :pending
+
   test "slices of size 1 from one" do
     assert StringSeries.slices("1", 1) == ["1"]
   end

@@ -1,6 +1,6 @@
 defmodule SieveTest do
   use ExUnit.Case, async: true
-  # @tag :pending
+
   test "no primes under two" do
     assert Sieve.primes_to(1) == []
   end

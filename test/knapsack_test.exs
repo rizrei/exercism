@@ -1,6 +1,6 @@
 defmodule KnapsackTest do
   use ExUnit.Case, async: true
-  # @tag :pending
+
   test "no items" do
     items = []
     maximum_weight = 100

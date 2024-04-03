@@ -2,7 +2,6 @@ defmodule NucleotideCountTest do
   use ExUnit.Case, async: true
 
   describe "count" do
-    # @tag :pending
     test "empty dna string has no adenine" do
       assert NucleotideCount.count(~c"", ?A) == 0
     end

@@ -14,7 +14,6 @@ defmodule AllergiesTest do
   end
 
   describe "allergy list against expected allergens -" do
-    # @tag :pending
     test "no allergies at all" do
       Allergies.list(0) |> assert_is_a_set_containing([])
     end

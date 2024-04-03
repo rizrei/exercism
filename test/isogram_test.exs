@@ -1,6 +1,6 @@
 defmodule IsogramTest do
   use ExUnit.Case, async: true
-  # @tag :pending
+
   test "empty string" do
     assert Isogram.isogram?("")
   end

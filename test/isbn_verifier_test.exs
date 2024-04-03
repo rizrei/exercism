@@ -1,6 +1,6 @@
 defmodule IsbnVerifierTest do
   use ExUnit.Case, async: true
-  # @tag :pending
+
   test "valid isbn number" do
     assert IsbnVerifier.isbn?("3-598-21508-8")
   end

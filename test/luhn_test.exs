@@ -1,6 +1,6 @@
 defmodule LuhnTest do
   use ExUnit.Case, async: true
-  # @tag :pending
+
   test "single digit strings can not be valid" do
     refute Luhn.valid?("1")
   end

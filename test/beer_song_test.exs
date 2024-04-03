@@ -2,7 +2,6 @@ defmodule BeerSongTest do
   use ExUnit.Case, async: true
 
   describe "verse" do
-    # @tag :pending
     test "first generic verse" do
       assert BeerSong.verse(99) == """
              99 bottles of beer on the wall, 99 bottles of beer.

@@ -2,7 +2,6 @@ defmodule VariableLengthQuantityTest do
   use ExUnit.Case, async: true
 
   describe "Encode a series of integers, producing a series of bytes." do
-    # @tag :pending
     test "zero" do
       integers = [0x0]
       output = VariableLengthQuantity.encode(integers)

@@ -1,6 +1,6 @@
 defmodule SumOfMultiplesTest do
   use ExUnit.Case, async: true
-  # @tag :pending
+
   test "no multiples within limit" do
     assert SumOfMultiples.to(1, [3, 5]) == 0
   end

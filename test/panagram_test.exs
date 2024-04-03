@@ -1,6 +1,6 @@
 defmodule PangramTest do
   use ExUnit.Case, async: true
-  # @tag :pending
+
   test "empty sentence" do
     refute Pangram.pangram?("")
   end

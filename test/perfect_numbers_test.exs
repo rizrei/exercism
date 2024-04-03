@@ -2,7 +2,6 @@ defmodule PerfectNumbersTest do
   use ExUnit.Case, async: true
 
   describe "Perfect numbers" do
-    # @tag :pending
     test "Smallest perfect number is classified correctly" do
       assert PerfectNumbers.classify(6) == {:ok, :perfect}
     end

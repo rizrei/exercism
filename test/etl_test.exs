@@ -1,6 +1,6 @@
 defmodule ETLTest do
   use ExUnit.Case, async: true
-  # @tag :pending
+
   test "single letter" do
     old = %{1 => ["A"]}
     expected = %{"a" => 1}

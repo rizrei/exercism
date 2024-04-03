@@ -1,6 +1,6 @@
 defmodule ResistorColorTrioTest do
   use ExUnit.Case, async: true
-  # @tag :pending
+
   test "Orange and orange and black" do
     colors = [:orange, :orange, :black]
     output = ResistorColorTrio.label(colors)

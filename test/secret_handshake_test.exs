@@ -2,7 +2,6 @@ defmodule SecretHandshakeTest do
   use ExUnit.Case, async: true
 
   describe "Create a handshake for a number" do
-    # @tag :pending
     test "wink for 1" do
       assert SecretHandshake.commands(1) == ["wink"]
     end
