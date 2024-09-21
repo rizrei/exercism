@@ -8,7 +8,7 @@ defmodule Atbash do
   "xlnko vgvob rmhvx fiv"
   """
 
-  @cipher Map.new(Enum.zip(?a..?z, ?z..?a))
+  @cipher Map.new(Enum.zip(?a..?z, ?z..?a//-1))
 
   @spec encode(String.t()) :: String.t()
   def encode(plaintext) do

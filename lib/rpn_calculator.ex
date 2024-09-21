@@ -10,6 +10,6 @@ defmodule RPNCalculator do
   def calculate_verbose(stack, operation) do
     {:ok, calculate!(stack, operation)}
   rescue
-    error -> {:error, error.message}
+    error -> {:error, Exception.message(error)}
   end
 end
