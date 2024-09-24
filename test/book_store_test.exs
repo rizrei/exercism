@@ -1,5 +1,6 @@
 defmodule BookStoreTest do
   use ExUnit.Case, async: true
+  doctest Transpose
 
   test "Only a single book" do
     # Suggested grouping, [[1]].
