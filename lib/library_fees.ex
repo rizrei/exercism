@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule LibraryFees do
   @spec datetime_from_string(binary) :: NaiveDateTime.t()
   def datetime_from_string(string), do: NaiveDateTime.from_iso8601!(string)

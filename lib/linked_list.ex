@@ -1,67 +1,67 @@
 defmodule LinkedList do
   @opaque t :: tuple()
 
-  @doc """
+  @moduledoc """
   Construct a new LinkedList
   """
   @spec new() :: t
   def new, do: {}
 
-  @doc """
+  @moduledoc """
   Push an item onto a LinkedList
   """
   @spec push(t, any()) :: t
   def push(list, elem), do: {elem, list}
 
-  @doc """
+  @moduledoc """
   Counts the number of elements in a LinkedList
   """
   @spec count(t) :: non_neg_integer()
   def count({}), do: 0
   def count({_, l}), do: 1 + count(l)
 
-  @doc """
+  @moduledoc """
   Determine if a LinkedList is empty
   """
   @spec empty?(t) :: boolean()
   def empty?(list), do: list == {}
 
-  @doc """
+  @moduledoc """
   Get the value of a head of the LinkedList
   """
   @spec peek(t) :: {:ok, any()} | {:error, :empty_list}
   def peek({}), do: {:error, :empty_list}
   def peek({h, _rest}), do: {:ok, h}
 
-  @doc """
+  @moduledoc """
   Get tail of a LinkedList
   """
   @spec tail(t) :: {:ok, t} | {:error, :empty_list}
   def tail({}), do: {:error, :empty_list}
   def tail({_h, elem}), do: {:ok, elem}
 
-  @doc """
+  @moduledoc """
   Remove the head from a LinkedList
   """
   @spec pop(t) :: {:ok, any(), t} | {:error, :empty_list}
   def pop({}), do: {:error, :empty_list}
   def pop({h, rest}), do: {:ok, h, rest}
 
-  @doc """
+  @moduledoc """
   Construct a LinkedList from a stdlib List
   """
   @spec from_list(list()) :: t
   def from_list([]), do: {}
   def from_list([h | t]), do: {h, from_list(t)}
 
-  @doc """
+  @moduledoc """
   Construct a stdlib List LinkedList from a LinkedList
   """
   @spec to_list(t) :: list()
   def to_list({}), do: []
   def to_list({h, t}), do: [h | to_list(t)]
 
-  @doc """
+  @moduledoc """
   Reverse a LinkedList
   """
   @spec reverse(t) :: t

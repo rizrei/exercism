@@ -1,5 +1,5 @@
 defmodule Say do
-  @doc """
+  @moduledoc """
   Translate a positive integer into English.
   """
   @spec in_english(integer) :: {atom, String.t()}

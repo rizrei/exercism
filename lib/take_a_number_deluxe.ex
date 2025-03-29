@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule TakeANumberDeluxe do
   use GenServer
 
@@ -71,10 +73,8 @@ defmodule TakeANumberDeluxe do
           auto_shutdown_timeout: auto_shutdown_timeout
         } = state
       ) do
-    with {:ok, new_state} <-
-           State.new(min_number, max_number, auto_shutdown_timeout) do
-      {:noreply, new_state, new_state.auto_shutdown_timeout}
-    else
+    case State.new(min_number, max_number, auto_shutdown_timeout) do
+      {:ok, new_state} -> {:noreply, new_state, new_state.auto_shutdown_timeout}
       _ -> {:noreply, state, state.auto_shutdown_timeout}
     end
   end

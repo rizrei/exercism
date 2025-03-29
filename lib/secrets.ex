@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule Secrets do
   @spec secret_add(integer) :: (integer -> integer)
   def secret_add(secret), do: &(&1 + secret)

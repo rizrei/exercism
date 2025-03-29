@@ -1,5 +1,5 @@
 defmodule PascalsTriangle do
-  @doc """
+  @moduledoc """
   Calculates the rows of a pascal triangle
   with the given height
   """

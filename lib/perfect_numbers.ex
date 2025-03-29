@@ -1,7 +1,7 @@
 defmodule PerfectNumbers do
   @natural_numbers_error "Classification is only possible for natural numbers."
 
-  @doc """
+  @moduledoc """
   Determine the aliquot sum of the given `number`, by summing all the factors
   of `number`, aside from `number` itself.
 

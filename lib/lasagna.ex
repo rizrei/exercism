@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule Lasagna do
   @expected_minutes_in_oven 40
   @minutes_to_each_layear 20

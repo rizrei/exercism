@@ -1,7 +1,7 @@
 defmodule VariableLengthQuantity do
   import Bitwise
 
-  @doc """
+  @moduledoc """
   Encode integers into a bitstring of VLQ encoded bytes
   """
   @spec encode(integers :: [integer]) :: binary
@@ -12,7 +12,7 @@ defmodule VariableLengthQuantity do
   defp encode_int(0, _, acc), do: acc
   defp encode_int(x, b, acc), do: encode_int(x >>> 7, 1, <<b::1, x::7, acc::binary>>)
 
-  @doc """
+  @moduledoc """
   Decode a bitstring of VLQ encoded bytes into a series of integers
   """
   @spec decode(bytes :: binary) :: {:ok, [integer]} | {:error, String.t()}

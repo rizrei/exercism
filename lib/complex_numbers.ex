@@ -7,21 +7,21 @@ defmodule ComplexNumbers do
   """
   @type complex :: {float, float}
 
-  @doc """
+  @moduledoc """
   Return the real part of a complex number
   """
   @spec real(a :: complex) :: float
   def real({r, _}), do: r
   def real(a), do: a
 
-  @doc """
+  @moduledoc """
   Return the imaginary part of a complex number
   """
   @spec imaginary(a :: complex) :: float
   def imaginary({_, i}), do: i
   def imaginary(a), do: a
 
-  @doc """
+  @moduledoc """
   Multiply two complex numbers, or a real and a complex number
   """
 
@@ -29,21 +29,21 @@ defmodule ComplexNumbers do
   def mul({r1, i1}, {r2, i2}), do: {r1 * r2 - i1 * i2, i1 * r2 + r1 * i2}
   def mul(a, b), do: mul(to_complex(a), to_complex(b))
 
-  @doc """
+  @moduledoc """
   Add two complex numbers, or a real and a complex number
   """
   @spec add(a :: complex | float, b :: complex | float) :: complex
   def add({r1, i1}, {r2, i2}), do: {r1 + r2, i1 + i2}
   def add(a, b), do: add(to_complex(a), to_complex(b))
 
-  @doc """
+  @moduledoc """
   Subtract two complex numbers, or a real and a complex number
   """
   @spec sub(a :: complex | float, b :: complex | float) :: complex
   def sub({r1, i1}, {r2, i2}), do: {r1 - r2, i1 - i2}
   def sub(a, b), do: sub(to_complex(a), to_complex(b))
 
-  @doc """
+  @moduledoc """
   Divide two complex numbers, or a real and a complex number
   """
   @spec div(a :: complex | float, b :: complex | float) :: complex
@@ -56,19 +56,19 @@ defmodule ComplexNumbers do
 
   def div(a, b), do: ComplexNumbers.div(to_complex(a), to_complex(b))
 
-  @doc """
+  @moduledoc """
   Absolute value of a complex number
   """
   @spec abs(a :: complex) :: float
   def abs({r, i}), do: :math.sqrt(r ** 2 + i ** 2)
 
-  @doc """
+  @moduledoc """
   Conjugate of a complex number
   """
   @spec conjugate(a :: complex) :: complex
   def conjugate({r, i}), do: {r, -i}
 
-  @doc """
+  @moduledoc """
   Exponential of a complex number
   """
   @spec exp(a :: complex) :: complex

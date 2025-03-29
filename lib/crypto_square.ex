@@ -1,5 +1,5 @@
 defmodule CryptoSquare do
-  @doc """
+  @moduledoc """
   Encode string square methods
   ## Examples
 

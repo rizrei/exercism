@@ -1,5 +1,5 @@
 defmodule Gigasecond do
-  @doc """
+  @moduledoc """
   Calculate a date one billion seconds after an input date.
   """
 

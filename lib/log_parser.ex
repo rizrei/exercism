@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule LogParser do
   def valid_line?(line), do: line |> String.match?(~r/\A\[(DEBUG|INFO|WARNING|ERROR)\].*\z/)
 

@@ -1,5 +1,5 @@
 defmodule Transpose do
-  @doc """
+  @moduledoc """
   Given an input text, output it transposed.
 
   Rows become columns and columns become rows. See https://en.wikipedia.org/wiki/Transpose.

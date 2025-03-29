@@ -1,5 +1,5 @@
 defmodule Proverb do
-  @doc """
+  @moduledoc """
   Generate a proverb from a list of strings.
   """
   @spec recite(strings :: [String.t()]) :: String.t()

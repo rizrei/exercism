@@ -52,7 +52,7 @@ defmodule VariableLengthQuantityTest do
     end
 
     test "arbitrary triple byte" do
-      integers = [0x100000]
+      integers = [0x10_0000]
       output = VariableLengthQuantity.encode(integers)
       expected = <<0xC0, 0x80, 0x0>>
       assert output == expected
@@ -87,7 +87,7 @@ defmodule VariableLengthQuantityTest do
     end
 
     test "smallest quintuple byte" do
-      integers = [0x10000000]
+      integers = [0x10_000000]
       output = VariableLengthQuantity.encode(integers)
       expected = <<0x81, 0x80, 0x80, 0x80, 0x0>>
       assert output == expected

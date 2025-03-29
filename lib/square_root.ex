@@ -1,5 +1,5 @@
 defmodule SquareRoot do
-  @doc """
+  @moduledoc """
   Calculate the integer square root of a positive integer
   """
   @spec calculate(radicand :: pos_integer) :: pos_integer

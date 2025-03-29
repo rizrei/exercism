@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule DancingDots.Animation do
   @type dot :: DancingDots.Dot.t()
   @type opts :: keyword

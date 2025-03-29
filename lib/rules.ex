@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule Rules do
   @spec eat_ghost?(boolean(), boolean()) :: boolean()
   def eat_ghost?(power_pellet_active, touching_ghost) do

@@ -5,7 +5,7 @@ defmodule RnaTranscription do
     ?T => ?A,
     ?A => ?U
   }
-  @doc """
+  @moduledoc """
   Transcribes a character list representing DNA nucleotides to RNA
 
   ## Examples

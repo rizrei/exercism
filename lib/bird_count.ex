@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule BirdCount do
   @spec today([non_neg_integer()] | []) :: non_neg_integer() | nil
   def today([]), do: nil

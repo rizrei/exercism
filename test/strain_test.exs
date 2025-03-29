@@ -1,7 +1,7 @@
 defmodule StrainTest do
   use ExUnit.Case, async: true
-  defp is_odd?(n), do: rem(n, 2) == 1
-  defp is_even?(n), do: rem(n, 2) == 0
+  defp odd?(n), do: rem(n, 2) == 1
+  defp even?(n), do: rem(n, 2) == 0
 
   describe "keep" do
     test "on empty list returns empty list" do
@@ -17,11 +17,11 @@ defmodule StrainTest do
     end
 
     test "keep first and last" do
-      assert Strain.keep([1, 2, 3], &is_odd?/1) == [1, 3]
+      assert Strain.keep([1, 2, 3], &odd?/1) == [1, 3]
     end
 
     test "keep neither first nor last" do
-      assert Strain.keep([1, 2, 3], &is_even?/1) == [2]
+      assert Strain.keep([1, 2, 3], &even?/1) == [2]
     end
 
     test "keep strings" do
@@ -63,11 +63,11 @@ defmodule StrainTest do
     end
 
     test "discard first and last" do
-      assert Strain.discard([1, 2, 3], &is_odd?/1) == [2]
+      assert Strain.discard([1, 2, 3], &odd?/1) == [2]
     end
 
     test "discard neither first nor last" do
-      assert Strain.discard([1, 2, 3], &is_even?/1) == [1, 3]
+      assert Strain.discard([1, 2, 3], &even?/1) == [1, 3]
     end
 
     test "discard strings" do

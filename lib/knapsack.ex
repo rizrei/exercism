@@ -1,5 +1,5 @@
 defmodule Knapsack do
-  @doc """
+  @moduledoc """
   Return the maximum value that a knapsack can carry.
   """
   @spec maximum_value(items :: [%{value: integer, weight: integer}], maximum_weight :: integer) ::

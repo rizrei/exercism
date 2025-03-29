@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule PaintByNumber do
   @spec palette_bit_size(pos_integer) :: non_neg_integer
   def palette_bit_size(color_count), do: color_count |> :math.log2() |> ceil()

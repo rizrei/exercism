@@ -1,5 +1,5 @@
 defmodule PrimeFactors do
-  @doc """
+  @moduledoc """
   Compute the prime factors for 'number'.
 
   The prime factors are prime numbers that when multiplied give the desired

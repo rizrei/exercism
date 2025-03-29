@@ -1,5 +1,5 @@
 defmodule SecretHandshake do
-  @doc """
+  @moduledoc """
   Determine the actions of a secret handshake based on the binary
   representation of the given `code`.
 
@@ -11,7 +11,7 @@ defmodule SecretHandshake do
   100 = close your eyes
   1000 = jump
 
-  10000 = Reverse the order of the operations in the secret handshake
+  10_000 = Reverse the order of the operations in the secret handshake
   """
   @spec commands(code :: integer) :: list(String.t())
   def commands(code) when code not in 1..31, do: []

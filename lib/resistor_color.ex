@@ -12,7 +12,7 @@ defmodule ResistorColor do
     white: 9
   }
 
-  @doc """
+  @moduledoc """
   Return the value of a color band
   """
   @spec code(atom) :: integer()

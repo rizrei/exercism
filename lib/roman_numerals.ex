@@ -1,5 +1,5 @@
 defmodule RomanNumerals do
-  @doc """
+  @moduledoc """
   Convert the number to a roman number.
   """
   @spec numeral(pos_integer) :: String.t()

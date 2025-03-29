@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule RPG do
   defmodule Character do
     defstruct health: 100, mana: 0

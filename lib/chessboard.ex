@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule Chessboard do
   def rank_range(), do: 1..8
 

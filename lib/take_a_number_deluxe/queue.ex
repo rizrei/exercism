@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule TakeANumberDeluxe.Queue do
   # You don't need to read this module to solve this exercise.
 

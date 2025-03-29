@@ -1,5 +1,5 @@
 defmodule Change do
-  @doc """
+  @moduledoc """
     Determine the least number of coins to be given to the user such
     that the sum of the coins' value would equal the correct amount of change.
     It returns {:error, "cannot change"} if it is not possible to compute the

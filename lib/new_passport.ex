@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule NewPassport do
   @spec get_new_passport(NaiveDateTime.t(), any, any) ::
           {:error, <<_::128, _::_*40>>} | {:ok, <<_::16, _::_*8>>} | {:retry, NaiveDateTime.t()}

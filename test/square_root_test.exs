@@ -37,7 +37,7 @@ defmodule SquareRootTest do
   end
 
   test "root of 65025" do
-    radicand = 65025
+    radicand = 65_025
     output = SquareRoot.calculate(radicand)
     expected = 255
     assert output == expected

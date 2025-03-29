@@ -1,5 +1,5 @@
 defmodule PigLatin do
-  @doc """
+  @moduledoc """
   Given a `phrase`, translate it a word at a time to Pig Latin.
   """
 
@@ -7,7 +7,7 @@ defmodule PigLatin do
 
   @spec translate(phrase :: String.t()) :: String.t()
   def translate(phrase) do
-    phrase |> String.split(" ") |> Enum.map(&pigify/1) |> Enum.join(" ")
+    phrase |> String.split(" ") |> Enum.map_join(" ", &pigify/1)
   end
 
   def pigify(string) do

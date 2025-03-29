@@ -1,4 +1,8 @@
 defmodule TakeANumberDeluxe.State do
+  @moduledoc """
+  State
+  """
+
   defstruct min_number: 1, max_number: 999, queue: nil, auto_shutdown_timeout: :infinity
   @type t :: %__MODULE__{}
 

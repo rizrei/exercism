@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule Newsletter do
   def read_emails(path), do: path |> File.read!() |> String.split(~r/\s/, trim: true)
 

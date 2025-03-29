@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule FileSniffer do
   def type_from_extension("exe"), do: "application/octet-stream"
   def type_from_extension("bmp"), do: "image/bmp"

@@ -1,4 +1,7 @@
 defmodule Username do
+  @moduledoc """
+  VariableLengthQuantity
+  """
   @spec sanitize(charlist) :: charlist
   def sanitize([]), do: []
   def sanitize([head | tail]) when head in ?a..?z, do: [head | sanitize(tail)]

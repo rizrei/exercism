@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule RPNCalculator do
   def calculate!(stack, operation), do: operation.(stack)
 

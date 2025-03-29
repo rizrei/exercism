@@ -1,5 +1,5 @@
 defmodule Acronym do
-  @doc """
+  @moduledoc """
   Generate an acronym from a string.
   "This is a string" => "TIAS"
   """

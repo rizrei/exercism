@@ -3,7 +3,7 @@ defmodule Form do
   A collection of loosely related functions helpful for filling out various forms at the city office.
   """
 
-  @doc """
+  @moduledoc """
   Generates a string of a given length.
 
   This string can be used to fill out a form field that is supposed to have no value.
@@ -14,7 +14,7 @@ defmodule Form do
     String.duplicate("X", n)
   end
 
-  @doc """
+  @moduledoc """
   Splits the string into a list of uppercase letters.
 
   This is needed for form fields that don't offer a single input for the whole string,
@@ -27,7 +27,7 @@ defmodule Form do
     |> String.split("", trim: true)
   end
 
-  @doc """
+  @moduledoc """
   Checks if the value has no more than the maximum allowed number of letters.
 
   This is needed to check that the values of fields do not exceed the maximum allowed length.
@@ -45,7 +45,7 @@ defmodule Form do
     end
   end
 
-  @doc """
+  @moduledoc """
   Formats the address as an uppercase multiline string.
   """
   @type address_map :: %{street: String.t(), postal_code: String.t(), city: String.t()}

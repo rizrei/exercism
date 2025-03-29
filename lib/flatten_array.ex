@@ -1,5 +1,5 @@
 defmodule FlattenArray do
-  @doc """
+  @moduledoc """
     Accept a list and return the list flattened without nil values.
 
     ## Examples

@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule HighSchoolSweetheart do
   @spec first_letter(String.t()) :: nil | String.t()
   def first_letter(name), do: name |> String.trim() |> String.first()
@@ -14,8 +16,7 @@ defmodule HighSchoolSweetheart do
   def initials(full_name) do
     full_name
     |> String.split()
-    |> Enum.map(&initial/1)
-    |> Enum.join(" ")
+    |> Enum.map_join(" ", &initial/1)
   end
 
   @spec pair(String.t(), String.t()) :: String.t()

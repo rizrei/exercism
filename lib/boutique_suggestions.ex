@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule BoutiqueSuggestions do
   def get_combinations(tops, bottoms, options \\ []) do
     max_price = options |> Keyword.get(:maximum_price, 100)

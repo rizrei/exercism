@@ -22,17 +22,17 @@ defmodule SeriesTest do
   end
 
   test "largest product of 5" do
-    assert Series.largest_product("0123456789", 5) == 15120
+    assert Series.largest_product("0123456789", 5) == 15_120
   end
 
   test "some big number" do
     assert Series.largest_product("73167176531330624919225119674426574742355349194934", 6) ==
-             23520
+             23_520
   end
 
   test "some other big number" do
     assert Series.largest_product("52677741234314237566414902593461595376319419139427", 6) ==
-             28350
+             28_350
   end
 
   test "number with all zeroes" do

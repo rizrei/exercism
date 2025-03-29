@@ -1,6 +1,6 @@
 defmodule Raindrops do
   @raindrops %{3 => "Pling", 5 => "Plang", 7 => "Plong"}
-  @doc """
+  @moduledoc """
   Returns a string based on raindrop factors.
 
   - If the number contains 3 as a prime factor, output 'Pling'.

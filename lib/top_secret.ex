@@ -1,4 +1,7 @@
 defmodule TopSecret do
+  @moduledoc """
+  TopSecret
+  """
   def to_ast(string), do: Code.string_to_quoted!(string)
 
   def decode_secret_message_part({op, _, args} = ast, acc) when op in [:def, :defp] do

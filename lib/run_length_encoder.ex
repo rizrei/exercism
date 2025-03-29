@@ -1,7 +1,7 @@
 defmodule RunLengthEncoder do
   @encode_regex ~r/([\p{L}\s])\1+/
   @decode_regex ~r/(\d+)([\p{L}\s])/
-  @doc """
+  @moduledoc """
   Generates a string where consecutive elements are represented as a data value and count.
   "AABBBCCCC" => "2A3B4C"
   For this example, assume all input are strings, that are all uppercase letters.

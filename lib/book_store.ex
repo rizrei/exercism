@@ -33,7 +33,7 @@ defmodule BookStore do
     group_price - group_price * discount
   end
 
-  @doc """
+  @moduledoc """
     ## Examples
     iex> BookStore.generate_tree([1, 2, 3])
     %{
@@ -46,17 +46,24 @@ defmodule BookStore do
       [3] => %{[1] => %{[2] => 2400}, [1, 2] => 2320.0, [2] => %{[1] => 2400}}
     }
   """
-  def generate_tree(list, price \\ 0)
-  def generate_tree([], price), do: price
+  def generate_tree(list, cache \\ %{}, price \\ 0)
+  def generate_tree([], _cache, price), do: price
 
-  def generate_tree(list, price) do
+  def generate_tree(list, cache, price) do
     list
     |> subsets()
     |> Enum.reduce(%{}, fn subset, acc ->
+      frequencies = Enum.frequencies(list -- subset)
+      new_price = price + group_price_with_discount(subset)
+
+      new_cache = cache |> Map.put_new(frequencies, new_price)
+
+      # IO.inspect(new_cache)
+
       acc
       |> Map.put(
         subset,
-        generate_tree(list -- subset, price + group_price_with_discount(subset))
+        generate_tree(list -- subset, new_cache, new_cache |> Map.get(frequencies))
       )
     end)
   end

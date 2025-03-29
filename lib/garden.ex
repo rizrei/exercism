@@ -1,5 +1,5 @@
 defmodule Garden do
-  @doc """
+  @moduledoc """
     Accepts a string representing the arrangement of cups on a windowsill and a
     list with names of students in the class. The student names list does not
     have to be in alphabetical order.

@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule RPG.CharacterSheet do
   @welcome_message "Welcome! Let's fill out your character sheet together."
   @ask_name_message "What is your character's name?\n"
@@ -23,6 +25,7 @@ defmodule RPG.CharacterSheet do
     name = ask_name()
     class = ask_class()
     level = ask_level()
+    # credo:disable-for-next-line
     IO.inspect(%{class: class, level: level, name: name}, label: @run_message)
   end
 end

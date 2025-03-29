@@ -4,7 +4,7 @@ defmodule Satellite do
   """
   @type tree :: {} | {tree, any, tree}
 
-  @doc """
+  @moduledoc """
   Build a tree from the elements given in a pre-order and in-order style
   """
   @spec build_tree(preorder :: [any], inorder :: [any]) :: {:ok, tree} | {:error, String.t()}
@@ -16,7 +16,7 @@ defmodule Satellite do
       preorder |> Enum.sort() != inorder |> Enum.sort() ->
         {:error, "traversals must have the same elements"}
 
-      preorder |> Enum.uniq() != preorder or preorder |> Enum.uniq() != preorder ->
+      preorder |> Enum.uniq() != preorder ->
         {:error, "traversals must contain unique items"}
 
       true ->

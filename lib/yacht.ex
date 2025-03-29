@@ -13,7 +13,7 @@ defmodule Yacht do
           | :choice
           | :yacht
 
-  @doc """
+  @moduledoc """
   Calculate the score of 5 dice using the given category's scoring method.
   """
   @spec score(category :: category(), dice :: [integer]) :: integer

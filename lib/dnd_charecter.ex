@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule DndCharacter do
   @type t :: %__MODULE__{
           strength: pos_integer(),

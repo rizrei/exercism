@@ -47,7 +47,7 @@ defmodule SumOfMultiplesTest do
 
   test "much larger factors" do
     multiples = [43, 47]
-    assert SumOfMultiples.to(10000, multiples) == 2_203_160
+    assert SumOfMultiples.to(10_000, multiples) == 2_203_160
   end
 
   test "all numbers are multiples of 1" do
@@ -57,7 +57,7 @@ defmodule SumOfMultiplesTest do
 
   test "no factors means an empty sum" do
     multiples = []
-    assert SumOfMultiples.to(10000, multiples) == 0
+    assert SumOfMultiples.to(10_000, multiples) == 0
   end
 
   test "the only multiple of 0 is 0" do
@@ -72,6 +72,6 @@ defmodule SumOfMultiplesTest do
 
   test "solutions using include-exclude must extend to cardinality greater than 3" do
     multiples = [2, 3, 5, 7, 11]
-    assert SumOfMultiples.to(10000, multiples) == 39_614_537
+    assert SumOfMultiples.to(10_000, multiples) == 39_614_537
   end
 end

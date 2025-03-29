@@ -3,7 +3,7 @@ defmodule Darts do
   @middle_circle_radius 5
   @inner_circle_radius 1
 
-  @doc """
+  @moduledoc """
   Calculate the score of a single dart hitting a target
   """
   @type position :: {number, number}

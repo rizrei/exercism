@@ -1,5 +1,5 @@
 defmodule Prime do
-  @doc """
+  @moduledoc """
   Generates the nth prime.
   """
   @spec nth(non_neg_integer) :: non_neg_integer

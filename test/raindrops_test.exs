@@ -66,6 +66,6 @@ defmodule RaindropsTest do
   end
 
   test "12121" do
-    assert Raindrops.convert(12121) == "12121"
+    assert Raindrops.convert(12_121) == "12121"
   end
 end

@@ -1,5 +1,5 @@
 defmodule Spiral do
-  @doc """
+  @moduledoc """
   Given the dimension, return a square matrix of numbers in clockwise spiral order.
   """
   @spec matrix(dimension :: integer) :: list(list(integer))

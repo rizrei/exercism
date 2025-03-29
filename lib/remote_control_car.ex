@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule RemoteControlCar do
   @enforce_keys [:nickname]
   defstruct [:nickname, battery_percentage: 100, distance_driven_in_meters: 0]

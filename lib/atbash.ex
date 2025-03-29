@@ -1,5 +1,5 @@
 defmodule Atbash do
-  @doc """
+  @moduledoc """
   Encode a given plaintext to the corresponding ciphertext
 
   ## Examples

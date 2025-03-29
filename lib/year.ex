@@ -1,5 +1,5 @@
 defmodule Year do
-  @doc """
+  @moduledoc """
   Returns whether 'year' is a leap year.
 
   A leap year occurs:

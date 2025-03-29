@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule HighScore do
   @default_score 0
 

@@ -1,5 +1,5 @@
 defmodule IsbnVerifier do
-  @doc """
+  @moduledoc """
     Checks if a string is a valid ISBN-10 identifier
 
     ## Examples

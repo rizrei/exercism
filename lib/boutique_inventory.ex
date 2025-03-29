@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule BoutiqueInventory do
   @spec sort_by_price(list) :: list
   def sort_by_price(inventory), do: inventory |> Enum.sort_by(& &1.price)

@@ -1,5 +1,5 @@
 defmodule EliudsEggs do
-  @doc """
+  @moduledoc """
   Given the number, count the number of eggs.
   """
   @spec egg_count(number :: integer()) :: non_neg_integer()

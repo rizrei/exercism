@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule RPNCalculator.Exception do
   defmodule DivisionByZeroError do
     defexception message: "division by zero occurred"

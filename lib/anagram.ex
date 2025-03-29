@@ -1,5 +1,5 @@
 defmodule Anagram do
-  @doc """
+  @moduledoc """
   Returns all candidates that are anagrams of, but not equal to, 'base'.
   """
   @spec match(String.t(), [String.t()]) :: [String.t()]

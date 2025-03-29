@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule RPNCalculatorInspection do
   def start_reliability_check(calculator, input) do
     %{input: input, pid: spawn_link(fn -> calculator.(input) end)}

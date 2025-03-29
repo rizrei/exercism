@@ -1,5 +1,5 @@
 defmodule ETL do
-  @doc """
+  @moduledoc """
   Transforms an old Scrabble score system to a new one.
 
   ## Examples

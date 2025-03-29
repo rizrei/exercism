@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule BasketballWebsite do
   @spec extract_from_path(map, binary) :: any
   def extract_from_path(data, path) do

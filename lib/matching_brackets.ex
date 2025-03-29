@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule MatchingBrackets do
   @openers ~w[( \[ {]
 

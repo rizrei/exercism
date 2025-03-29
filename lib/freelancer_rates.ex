@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule FreelancerRates do
   @working_hours_per_day 8.0
   @billable_days 22

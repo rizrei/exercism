@@ -12,7 +12,7 @@ defmodule ResistorColorTrio do
     white: 9
   }
 
-  @doc """
+  @moduledoc """
   Calculate the resistance value in ohms from resistor colors
   """
   @spec label(colors :: [atom]) :: {number, :ohms | :kiloohms | :megaohms | :gigaohms}

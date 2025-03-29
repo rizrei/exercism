@@ -12,7 +12,7 @@ defmodule ResistorColorDuo do
     white: 9
   }
 
-  @doc """
+  @moduledoc """
   Calculate a resistance value from two colors
   """
   @spec value(colors :: [atom]) :: integer

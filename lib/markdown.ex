@@ -1,5 +1,5 @@
 defmodule Markdown do
-  @doc """
+  @moduledoc """
     Parses a given string with Markdown syntax and returns the associated HTML for that string.
 
     ## Examples
@@ -20,9 +20,9 @@ defmodule Markdown do
   end
 
   defp process_line("* " <> str), do: "<li>#{str}</li>"
-  defp process_line(line = "#" <> _), do: parse_header(line, 0)
+  defp process_line("#" <> _ = line), do: parse_header(line, 0)
   defp process_line(line), do: "<p>#{line}</p>"
-  defp parse_header(line = "#######" <> _, 0), do: "<p>#{line}</p>"
+  defp parse_header("#######" <> _ = line, 0), do: "<p>#{line}</p>"
   defp parse_header(" " <> str, len), do: "<h#{len}>#{str}</h#{len}>"
   defp parse_header("#" <> str, len), do: parse_header(str, len + 1)
 

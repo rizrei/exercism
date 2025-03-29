@@ -1,5 +1,5 @@
 defmodule Luhn do
-  @doc """
+  @moduledoc """
   Checks if the given number is valid via the luhn formula
   """
   @spec valid?(String.t()) :: boolean

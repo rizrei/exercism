@@ -10,7 +10,7 @@ defmodule DancingDots.DotGroup do
   defstruct [:dots, :animations_with_opts]
   @type t :: %__MODULE__{}
 
-  @doc """
+  @moduledoc """
   Creates a new dot group with given dots and an empty list of animations.
   """
   @spec new([DancingDots.Dot.t()]) :: t()
@@ -21,7 +21,7 @@ defmodule DancingDots.DotGroup do
     }
   end
 
-  @doc """
+  @moduledoc """
   Validates the given animation module with its given options and adds it to the group.
   """
   @spec add_animation(t(), module, DancingDots.Animation.opts()) ::
@@ -41,7 +41,7 @@ defmodule DancingDots.DotGroup do
     end
   end
 
-  @doc """
+  @moduledoc """
   Applies the list of animations to all the dots.
   """
   @spec render_dots(t(), DancingDots.Animation.frame_number()) :: [DancingDots.Dot.t()]

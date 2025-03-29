@@ -1,5 +1,5 @@
 defmodule AllYourBase do
-  @doc """
+  @moduledoc """
   Given a number in input base, represented as a sequence of digits, converts it to output base,
   or returns an error tuple if either of the bases are less than 2
   """
@@ -34,7 +34,7 @@ defmodule AllYourBase do
 end
 
 # defmodule AllYourBase do
-#   @doc """
+#   @moduledoc """
 #   Given a number in input base, represented as a sequence of digits, converts it to output base,
 #   or returns an error tuple if either of the bases are less than 2
 #   """

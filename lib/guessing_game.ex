@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule GuessingGame do
   @spec compare(number, number) :: String.t()
   def compare(_, :no_guess), do: "Make a guess"

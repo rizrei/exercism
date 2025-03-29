@@ -19,7 +19,7 @@ defmodule PrimeTest do
 
   @tag :slow
   test "big prime" do
-    assert Prime.nth(10001) == 104_743
+    assert Prime.nth(10_001) == 104_743
   end
 
   test "there is no zeroth prime" do

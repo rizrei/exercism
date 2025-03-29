@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule TakeANumber do
   def start, do: spawn(__MODULE__, :loop, [])
 

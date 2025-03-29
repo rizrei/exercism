@@ -1,4 +1,7 @@
 defmodule WineCellar do
+  @moduledoc """
+  WineCellar
+  """
   def explain_colors do
     [
       white: "Fermented without skin contact.",

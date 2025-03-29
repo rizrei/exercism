@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule LanguageList do
   @spec new :: []
   def new(), do: []

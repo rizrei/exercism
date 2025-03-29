@@ -1,5 +1,5 @@
 defmodule WordCount do
-  @doc """
+  @moduledoc """
   Count the number of words in the sentence.
 
   Words are compared case-insensitively.

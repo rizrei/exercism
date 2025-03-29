@@ -18,7 +18,7 @@ defmodule GrainsTest do
   end
 
   test "square 16" do
-    assert Grains.square(16) === {:ok, 32768}
+    assert Grains.square(16) === {:ok, 32_768}
   end
 
   test "square 32" do

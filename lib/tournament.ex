@@ -1,6 +1,11 @@
+# credo:disable-for-this-file
+
 defmodule Tournament do
   defmodule ResultTable do
     defmodule Score do
+      @moduledoc """
+      Score
+      """
       defstruct mp: 0, w: 0, d: 0, l: 0, p: 0
     end
 
@@ -36,6 +41,9 @@ defmodule Tournament do
   end
 
   defmodule Formatter do
+    @moduledoc """
+    Formatter
+    """
     def to_list(table) do
       table
       |> Enum.to_list()
@@ -45,8 +53,7 @@ defmodule Tournament do
 
     def to_table(list) do
       list
-      |> Enum.map(fn {team, points} -> table_line(team, points) end)
-      |> Enum.join("\n")
+      |> Enum.map_join("\n", fn {team, points} -> table_line(team, points) end)
       |> String.replace_prefix("", "#{header()}\n")
     end
 
@@ -69,7 +76,7 @@ defmodule Tournament do
     defp lpad(str, count), do: String.pad_leading(str, count)
   end
 
-  @doc """
+  @moduledoc """
   Given `input` lines representing two teams and whether the first of them won,
   lost, or reached a draw, separated by semicolons, calculate the statistics
   for each team's number of games played, won, drawn, lost, and total points

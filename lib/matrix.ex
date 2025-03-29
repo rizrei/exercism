@@ -1,52 +1,54 @@
 defmodule Matrix do
   defstruct matrix: nil
 
-  @doc """
+  @moduledoc """
   Convert an `input` string, with rows separated by newlines and values
   separated by single spaces, into a `Matrix` struct.
   """
-  @spec from_string(input :: String.t()) :: %Matrix{}
+  @type t :: %__MODULE__{matrix: integer}
+
+  @spec from_string(input :: String.t()) :: Matrix.t()
   def from_string(input) do
     %Matrix{matrix: input |> String.split("\n") |> Enum.map(&digits_to_list/1)}
   end
 
-  @doc """
+  @moduledoc """
   Write the `matrix` out as a string, with rows separated by newlines and
   values separated by single spaces.
   """
-  @spec to_string(matrix :: %Matrix{}) :: String.t()
+  @spec to_string(matrix :: Matrix.t()) :: String.t()
   def to_string(%Matrix{matrix: matrix}) do
-    matrix |> Enum.map(&Enum.join(&1, " ")) |> Enum.join("\n")
+    matrix |> Enum.map_join("\n", &Enum.join(&1, " "))
   end
 
-  @doc """
+  @moduledoc """
   Given a `matrix`, return its rows as a list of lists of integers.
   """
-  @spec rows(matrix :: %Matrix{}) :: list(list(integer))
+  @spec rows(matrix :: Matrix.t()) :: list(list(integer))
   def rows(%Matrix{matrix: matrix}) do
     matrix
   end
 
-  @doc """
+  @moduledoc """
   Given a `matrix` and `index`, return the row at `index`.
   """
-  @spec row(matrix :: %Matrix{}, index :: integer) :: list(integer)
+  @spec row(matrix :: Matrix.t(), index :: integer) :: list(integer)
   def row(%Matrix{matrix: matrix}, index) do
     matrix |> Enum.at(index - 1)
   end
 
-  @doc """
+  @moduledoc """
   Given a `matrix`, return its columns as a list of lists of integers.
   """
-  @spec columns(matrix :: %Matrix{}) :: list(list(integer))
+  @spec columns(matrix :: Matrix.t()) :: list(list(integer))
   def columns(matrix) do
     matrix |> rows() |> Enum.zip_with(& &1)
   end
 
-  @doc """
+  @moduledoc """
   Given a `matrix` and `index`, return the column at `index`.
   """
-  @spec column(matrix :: %Matrix{}, index :: integer) :: list(integer)
+  @spec column(matrix :: Matrix.t(), index :: integer) :: list(integer)
   def column(matrix, index) do
     matrix |> columns() |> Enum.at(index - 1)
   end

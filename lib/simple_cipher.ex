@@ -1,5 +1,5 @@
 defmodule SimpleCipher do
-  @doc """
+  @moduledoc """
   Given a `plaintext` and `key`, encode each character of the `plaintext` by
   shifting it by the corresponding letter in the alphabet shifted by the number
   of letters represented by the `key` character, repeating the `key` if it is
@@ -42,7 +42,7 @@ defmodule SimpleCipher do
     |> to_string()
   end
 
-  @doc """
+  @moduledoc """
   Given a `ciphertext` and `key`, decode each character of the `ciphertext` by
   finding the corresponding letter in the alphabet shifted by the number of
   letters represented by the `key` character, repeating the `key` if it is
@@ -64,7 +64,7 @@ defmodule SimpleCipher do
     |> to_string()
   end
 
-  @doc """
+  @moduledoc """
   Generate a random key of a given length. It should contain lowercase letters only.
   """
   def generate_key(length) do

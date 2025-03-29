@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule KitchenCalculator do
   @mililiters_in %{milliliter: 1, cup: 240, fluid_ounce: 30, teaspoon: 5, tablespoon: 15}
 

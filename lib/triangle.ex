@@ -4,7 +4,7 @@ defmodule Triangle do
   @triangle_inequality_error "side lengths violate triangle inequality"
   @negative_side_length_error "all side lengths must be positive"
 
-  @doc """
+  @moduledoc """
   Return the kind of triangle of a triangle with 'a', 'b' and 'c' as lengths.
   """
   @spec kind(number, number, number) :: {:ok, kind} | {:error, String.t()}

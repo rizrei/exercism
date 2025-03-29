@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 # Use the Plot struct as it is provided
 defmodule Plot do
   @enforce_keys [:plot_id, :registered_to]

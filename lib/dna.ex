@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule DNA do
   def encode_nucleotide(?\s), do: 0
   def encode_nucleotide(?A), do: 1

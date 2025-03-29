@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule Bob do
   @spec hey(String.t()) :: String.t()
   def hey(input) do

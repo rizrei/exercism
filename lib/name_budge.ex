@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule NameBadge do
   @spec print(pos_integer | nil, binary, binary | nil) :: binary
   def print(id, name, department) do

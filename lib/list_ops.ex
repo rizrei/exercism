@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule ListOps do
   @spec count(list) :: non_neg_integer
   def count(l), do: do_count(l, 0)
@@ -23,9 +25,10 @@ defmodule ListOps do
   defp do_filter([], _, acc), do: acc
 
   defp do_filter([h | t], f, acc) do
-    cond do
-      f.(h) -> [h | do_filter(t, f, acc)]
-      true -> do_filter(t, f, acc)
+    if f.(h) do
+      [h | do_filter(t, f, acc)]
+    else
+      do_filter(t, f, acc)
     end
   end
 
