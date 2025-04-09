@@ -1,7 +1,10 @@
 defmodule NucleotideCount do
+  @moduledoc """
+  NucleotideCount
+  """
   @nucleotides [?A, ?C, ?G, ?T]
 
-  @moduledoc """
+  @doc """
   Counts individual nucleotides in a DNA strand.
 
   ## Examples
@@ -15,7 +18,7 @@ defmodule NucleotideCount do
   @spec count(charlist(), char()) :: non_neg_integer()
   def count(strand, nucleotide), do: strand |> Enum.count(&(&1 == nucleotide))
 
-  @moduledoc """
+  @doc """
   Returns a summary of counts by nucleotide.
 
   ## Examples

@@ -1,5 +1,9 @@
 defmodule ProteinTranslation do
   @moduledoc """
+  ProteinTranslation
+  """
+
+  @doc """
   Given an RNA string, return a list of proteins specified by codons, in order.
   """
   @spec of_rna(String.t()) :: {:ok, list(String.t())} | {:error, String.t()}
@@ -17,7 +21,7 @@ defmodule ProteinTranslation do
 
   defp do_of_rna(_, _), do: {:error, "invalid RNA"}
 
-  @moduledoc """
+  @doc """
   Given a codon, return the corresponding protein
 
   UGU -> Cysteine

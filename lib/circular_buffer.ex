@@ -5,31 +5,31 @@ defmodule CircularBuffer do
   An API to a stateful process that fills and empties a circular buffer
   """
 
-  @moduledoc """
+  @doc """
   Create a new buffer of a given capacity
   """
   @spec new(capacity :: integer) :: {:ok, pid}
   def new(capacity), do: GenServer.start_link(__MODULE__, capacity)
 
-  @moduledoc """
+  @doc """
   Read the oldest entry in the buffer, fail if it is empty
   """
   @spec read(buffer :: pid) :: {:ok, any} | {:error, atom}
   def read(buffer), do: GenServer.call(buffer, :reed)
 
-  @moduledoc """
+  @doc """
   Write a new item in the buffer, fail if is full
   """
   @spec write(buffer :: pid, item :: any) :: :ok | {:error, atom}
   def write(buffer, item), do: GenServer.call(buffer, {:write, item})
 
-  @moduledoc """
+  @doc """
   Write an item in the buffer, overwrite the oldest entry if it is full
   """
   @spec overwrite(buffer :: pid, item :: any) :: :ok
   def overwrite(buffer, item), do: GenServer.cast(buffer, {:overwrite, item})
 
-  @moduledoc """
+  @doc """
   Clear the buffer
   """
   @spec clear(buffer :: pid) :: :ok

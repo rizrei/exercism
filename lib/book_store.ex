@@ -33,7 +33,7 @@ defmodule BookStore do
     group_price - group_price * discount
   end
 
-  @moduledoc """
+  @doc """
     ## Examples
     iex> BookStore.generate_tree([1, 2, 3])
     %{

@@ -1,7 +1,10 @@
 defmodule Matrix do
+  @moduledoc """
+  Matrix
+  """
   defstruct matrix: nil
 
-  @moduledoc """
+  @doc """
   Convert an `input` string, with rows separated by newlines and values
   separated by single spaces, into a `Matrix` struct.
   """
@@ -12,7 +15,7 @@ defmodule Matrix do
     %Matrix{matrix: input |> String.split("\n") |> Enum.map(&digits_to_list/1)}
   end
 
-  @moduledoc """
+  @doc """
   Write the `matrix` out as a string, with rows separated by newlines and
   values separated by single spaces.
   """
@@ -21,7 +24,7 @@ defmodule Matrix do
     matrix |> Enum.map_join("\n", &Enum.join(&1, " "))
   end
 
-  @moduledoc """
+  @doc """
   Given a `matrix`, return its rows as a list of lists of integers.
   """
   @spec rows(matrix :: Matrix.t()) :: list(list(integer))
@@ -29,7 +32,7 @@ defmodule Matrix do
     matrix
   end
 
-  @moduledoc """
+  @doc """
   Given a `matrix` and `index`, return the row at `index`.
   """
   @spec row(matrix :: Matrix.t(), index :: integer) :: list(integer)
@@ -37,7 +40,7 @@ defmodule Matrix do
     matrix |> Enum.at(index - 1)
   end
 
-  @moduledoc """
+  @doc """
   Given a `matrix`, return its columns as a list of lists of integers.
   """
   @spec columns(matrix :: Matrix.t()) :: list(list(integer))
@@ -45,7 +48,7 @@ defmodule Matrix do
     matrix |> rows() |> Enum.zip_with(& &1)
   end
 
-  @moduledoc """
+  @doc """
   Given a `matrix` and `index`, return the column at `index`.
   """
   @spec column(matrix :: Matrix.t(), index :: integer) :: list(integer)

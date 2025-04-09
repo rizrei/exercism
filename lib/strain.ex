@@ -1,5 +1,9 @@
 defmodule Strain do
   @moduledoc """
+  Strain
+  """
+
+  @doc """
   Given a `list` of items and a function `fun`, return the list of items where
   `fun` returns true.
 
@@ -8,7 +12,7 @@ defmodule Strain do
   @spec keep(list :: list(any), fun :: (any -> boolean)) :: list(any)
   def keep(list, fun), do: for(elem <- list, fun.(elem), do: elem)
 
-  @moduledoc """
+  @doc """
   Given a `list` of items and a function `fun`, return the list of items where
   `fun` returns false.
 

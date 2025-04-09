@@ -1,5 +1,9 @@
 defmodule SaddlePoints do
   @moduledoc """
+  SaddlePoints
+  """
+
+  @doc """
   Parses a string representation of a matrix
   to a list of rows
   """
@@ -7,7 +11,7 @@ defmodule SaddlePoints do
   def rows(""), do: []
   def rows(str), do: str |> String.split("\n") |> Enum.map(&digits_to_list/1)
 
-  @moduledoc """
+  @doc """
   Parses a string representation of a matrix
   to a list of columns
   """
@@ -17,7 +21,7 @@ defmodule SaddlePoints do
   @spec columns(String.t()) :: [[integer]]
   def columns(str), do: str |> rows() |> Enum.zip_with(& &1)
 
-  @moduledoc """
+  @doc """
   Calculates all the saddle points from a string
   representation of a matrix
   """

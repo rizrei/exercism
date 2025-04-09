@@ -68,7 +68,7 @@ defmodule BankAccount do
   """
   @opaque account :: pid
 
-  @moduledoc """
+  @doc """
   Open the bank account, making it available for further operations.
   """
   @spec open() :: account
@@ -77,7 +77,7 @@ defmodule BankAccount do
     pid
   end
 
-  @moduledoc """
+  @doc """
   Close the bank account, making it unavailable for further operations.
   """
   @spec close(account) :: any
@@ -85,7 +85,7 @@ defmodule BankAccount do
     GenServer.cast(account, :close)
   end
 
-  @moduledoc """
+  @doc """
   Get the account's balance.
   """
   @spec balance(account) :: integer | {:error, :account_closed}
@@ -93,7 +93,7 @@ defmodule BankAccount do
     GenServer.call(account, :balance)
   end
 
-  @moduledoc """
+  @doc """
   Add the given amount to the account's balance.
   """
   @spec deposit(account, integer) :: :ok | {:error, :account_closed | :amount_must_be_positive}
@@ -101,7 +101,7 @@ defmodule BankAccount do
     GenServer.call(account, {:deposit, amount})
   end
 
-  @moduledoc """
+  @doc """
   Subtract the given amount from the account's balance.
   """
   @spec withdraw(account, integer) ::

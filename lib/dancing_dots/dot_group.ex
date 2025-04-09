@@ -1,8 +1,4 @@
 defmodule DancingDots.DotGroup do
-  # This module is an example of how behaviours can be used in practice.
-  # You don't need to read it to solve this exercise.
-  # It's here for the curious :)
-
   @moduledoc """
   Allows applying a list of one or more animations to a group of one or more dots.
   """
@@ -10,7 +6,7 @@ defmodule DancingDots.DotGroup do
   defstruct [:dots, :animations_with_opts]
   @type t :: %__MODULE__{}
 
-  @moduledoc """
+  @doc """
   Creates a new dot group with given dots and an empty list of animations.
   """
   @spec new([DancingDots.Dot.t()]) :: t()
@@ -21,7 +17,7 @@ defmodule DancingDots.DotGroup do
     }
   end
 
-  @moduledoc """
+  @doc """
   Validates the given animation module with its given options and adds it to the group.
   """
   @spec add_animation(t(), module, DancingDots.Animation.opts()) ::
@@ -41,7 +37,7 @@ defmodule DancingDots.DotGroup do
     end
   end
 
-  @moduledoc """
+  @doc """
   Applies the list of animations to all the dots.
   """
   @spec render_dots(t(), DancingDots.Animation.frame_number()) :: [DancingDots.Dot.t()]
