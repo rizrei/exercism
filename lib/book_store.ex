@@ -3,107 +3,42 @@ defmodule BookStore do
   Calculates the price of a shopping basket with the biggest possible discount.
   """
 
+  @typedoc "A book is represented by its number in the 5-book series"
+  @type book :: 1 | 2 | 3 | 4 | 5
   @book_price 800
-  @discounts %{
-    2 => 0.05,
-    3 => 0.1,
-    4 => 0.2,
-    5 => 0.25
+  @group %{
+    1 => @book_price * 1,
+    2 => @book_price * 2 * 0.95,
+    3 => @book_price * 3 * 0.90,
+    4 => @book_price * 4 * 0.80,
+    5 => @book_price * 5 * 0.75
   }
 
-  def total(basket) do
-    basket
-    |> generate_tree()
-    |> tree_min()
-    |> trunc()
-  end
+  def total([]), do: 0
+  def total(basket), do: basket |> Enum.frequencies() |> min_price() |> round()
 
-  def tree_min(tree) when is_number(tree), do: tree
+  defp min_price(freq) when map_size(freq) == 0, do: 0
 
-  def tree_min(tree) do
-    tree
-    |> Enum.map(fn {_, v} -> tree_min(v) end)
+  defp min_price(freq) do
+    Map.keys(@group)
+    |> Enum.filter(fn size -> map_size(freq) >= size end)
+    |> Enum.map(fn size ->
+      min_price = freq |> group_books(size) |> min_price()
+      @group[size] + min_price
+    end)
     |> Enum.min()
   end
 
-  def group_price_with_discount(group) do
-    group_size = length(group)
-    group_price = group_size * @book_price
-    discount = Map.get(@discounts, group_size, 0)
-    group_price - group_price * discount
-  end
-
-  @doc """
-    ## Examples
-    iex> BookStore.generate_tree([1, 2, 3])
-    %{
-      [1] => %{[2] => %{[3] => 2400}, [2, 3] => 2320.0, [3] => %{[2] => 2400}},
-      [1, 2] => %{[3] => 2320.0},
-      [1, 2, 3] => 2160.0,
-      [1, 3] => %{[2] => 2320.0},
-      [2] => %{[1] => %{[3] => 2400}, [1, 3] => 2320.0, [3] => %{[1] => 2400}},
-      [2, 3] => %{[1] => 2320.0},
-      [3] => %{[1] => %{[2] => 2400}, [1, 2] => 2320.0, [2] => %{[1] => 2400}}
-    }
-  """
-  def generate_tree(list, cache \\ %{}, price \\ 0)
-  def generate_tree([], _cache, price), do: price
-
-  def generate_tree(list, cache, price) do
-    list
-    |> subsets()
-    |> Enum.reduce(%{}, fn subset, acc ->
-      frequencies = Enum.frequencies(list -- subset)
-      new_price = price + group_price_with_discount(subset)
-
-      new_cache = cache |> Map.put_new(frequencies, new_price)
-
-      # IO.inspect(new_cache)
-
+  defp group_books(freq, size) do
+    freq
+    |> Enum.sort_by(fn {_book, count} -> -count end)
+    |> Enum.map(fn {book, _count} -> book end)
+    |> Enum.take(size)
+    |> Enum.reduce(freq, fn book, acc ->
       acc
-      |> Map.put(
-        subset,
-        generate_tree(list -- subset, new_cache, new_cache |> Map.get(frequencies))
-      )
+      |> Map.update!(book, &(&1 - 1))
+      |> Enum.reject(fn {_book, count} -> count == 0 end)
+      |> Enum.into(%{})
     end)
-  end
-
-  @doc """
-    Split list to subsets
-
-    ## Examples
-
-      iex> BookStore.subsets([1, 2, 3, 4])
-      [
-        [1],
-        [2],
-        [3],
-        [4],
-        [1, 2],
-        [1, 3],
-        [1, 4],
-        [2, 3],
-        [2, 4],
-        [3, 4],
-        [1, 2, 3],
-        [1, 2, 4],
-        [1, 3, 4],
-        [2, 3, 4],
-        [1, 2, 3, 4]
-      ]
-
-  """
-  def subsets(list) do
-    items = Enum.uniq(list)
-    for k <- 1..length(items), subsets <- subsets(items, k), do: subsets
-  end
-
-  defp subsets(_, 0), do: [[]]
-  defp subsets([], _), do: []
-
-  defp subsets([h | t], k) do
-    with_h = for tail <- subsets(t, k - 1), do: [h | tail]
-    without_h = subsets(t, k)
-    with_h ++ without_h
   end
 end
