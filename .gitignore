@@ -25,5 +25,8 @@ exercism-*.tar
 # Temporary files, for example, from tests.
 /tmp/
 
+# ElixirLS
+.elixir_ls/
+
 .DS_Store
 **/.DS_Store

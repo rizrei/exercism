@@ -13,5 +13,5 @@ defmodule Spiral do
   end
 
   defp rotate_right(matrix), do: transpose(matrix) |> Enum.map(&Enum.reverse/1)
-  defp transpose(matrix), do: List.zip(matrix) |> Enum.map(&Tuple.to_list/1)
+  defp transpose(matrix), do: Enum.zip(matrix) |> Enum.map(&Tuple.to_list/1)
 end
