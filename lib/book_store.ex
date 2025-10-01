@@ -7,7 +7,7 @@ defmodule BookStore do
   @type book :: 1 | 2 | 3 | 4 | 5
   @book_price 800
   @group %{
-    1 => @book_price * 1,
+    1 => @book_price,
     2 => @book_price * 2 * 0.95,
     3 => @book_price * 3 * 0.90,
     4 => @book_price * 4 * 0.80,

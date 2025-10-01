@@ -1,4 +1,6 @@
 defmodule QuickSort do
+  @moduledoc false
+
   def qsort([]), do: []
 
   def qsort([pivot | t]) do

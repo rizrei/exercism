@@ -1,4 +1,6 @@
 defmodule DivideAndConquer do
+  @moduledoc false
+
   def divide({length, width}) do
     do_divide({length, width}, [])
   end

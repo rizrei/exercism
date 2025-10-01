@@ -89,13 +89,13 @@ defmodule BookStoreTest do
   test "Four groups of four are cheaper than two groups each of five and three" do
     # Suggested grouping, [[1,2,3,4],[1,2,3,5],[1,2,3,4],[1,2,3,5]].
     basket = [1, 1, 2, 2, 3, 3, 4, 5, 1, 1, 2, 2, 3, 3, 4, 5]
-    assert BookStore.total(basket) == 10240
+    assert BookStore.total(basket) == 10_240
   end
 
   test "Check that groups of four are created properly even when there are more groups of three than groups of five" do
     # Suggested grouping, [[1,2,3,4],[1,2,3,5],[1,2,3,4],[1,2,3,5],[1,2,3],[1,2,3]].
     basket = [1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 5, 5]
-    assert BookStore.total(basket) == 14560
+    assert BookStore.total(basket) == 14_560
   end
 
   test "One group of one and four is cheaper than one group of two and three" do
