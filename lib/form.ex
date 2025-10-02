@@ -10,9 +10,7 @@ defmodule Form do
   Such fields cannot be left empty because a malicious third party could fill them out with false data.
   """
   @spec blanks(n :: non_neg_integer()) :: String.t()
-  def blanks(n) do
-    String.duplicate("X", n)
-  end
+  def blanks(n), do: String.duplicate("X", n)
 
   @doc """
   Splits the string into a list of uppercase letters.

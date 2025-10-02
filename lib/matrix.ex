@@ -10,7 +10,7 @@ defmodule Matrix do
   """
   @type t :: %__MODULE__{matrix: integer}
 
-  @spec from_string(input :: String.t()) :: Matrix.t()
+  @spec from_string(input :: String.t()) :: t()
   def from_string(input) do
     %Matrix{matrix: input |> String.split("\n") |> Enum.map(&digits_to_list/1)}
   end
