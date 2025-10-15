@@ -1,21 +1,30 @@
 # Exercism
 
-**TODO: Add description**
+A collection of Exercism (https://exercism.org) exercises and Elixir solutions.
 
-## Installation
+## About this project
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `exercism` to your list of dependencies in `mix.exs`:
+This repository contains exercises from Exercism and my implementations in Elixir. The goal is practice, documenting approaches, and demonstrating alternative solutions.
 
-```elixir
-def deps do
-  [
-    {:exercism, "~> 0.1.0"}
-  ]
-end
-```
+## Requirements
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/exercism>.
+- Elixir (installed)
+- Erlang/OTP (compatible version)
 
+## Quick start
+
+1. Clone the repository:
+  git clone <repo-url>
+
+2. Install dependencies:
+  mix deps.get
+
+3. Run all tests:
+  mix test
+
+4. Run a specific test file:
+  mix test test/<file_name>_test.exs
+
+## License
+
+Add a LICENSE file to specify the project license (for example MIT or Apache).
