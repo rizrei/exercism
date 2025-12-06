@@ -8,8 +8,8 @@ defmodule BankAccount do
       %Account{}
     end
 
-    def close(state) do
-      %Account{state | state: :closed}
+    def close(%Account{} = state) do
+      %{state | state: :closed}
     end
 
     def balance(%Account{state: :closed}) do
