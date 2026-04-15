@@ -1,5 +1,5 @@
 defmodule BottleSongTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   describe "[Single verse]" do
     test "First generic verse" do

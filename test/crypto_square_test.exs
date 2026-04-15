@@ -1,5 +1,5 @@
 defmodule CryptoSquareTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   test "empty plaintext results in an empty ciphertext" do
     assert CryptoSquare.encode("") == ""

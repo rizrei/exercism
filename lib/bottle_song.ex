@@ -7,7 +7,8 @@ defmodule BottleSong do
 
   @spec recite(pos_integer, pos_integer) :: String.t()
   def recite(start_bottle, take_down) do
-    start_bottle..(start_bottle - take_down + 1)
+    start_bottle
+    |> Range.new(start_bottle - take_down + 1, -1)
     |> Enum.map_join("\n\n", &verse/1)
   end
 
