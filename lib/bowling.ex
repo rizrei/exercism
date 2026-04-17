@@ -3,15 +3,15 @@ defmodule Bowling do
     @moduledoc """
     Bowling.Frame struct
     """
-    @type frame :: %__MODULE__{
-            number: pos_integer(),
+    @type t() :: %__MODULE__{
+            number: pos_integer() | nil,
             rolls: list(pos_integer()),
             closed: boolean(),
-            status: :open_frame | :strike | :spare
+            status: :open_frame | :strike | :spare | nil
           }
     defstruct number: nil, rolls: [], closed: false, status: nil
 
-    @spec add_roll(frame, pos_integer) :: {:ok, frame} | {:error, String.t()}
+    @spec add_roll(t(), pos_integer()) :: {:ok, t()} | {:error, String.t()}
     def add_roll(_, r) when r < 0, do: {:error, "Negative roll is invalid"}
     def add_roll(_, r) when r > 10, do: {:error, "Pin count exceeds pins on the lane"}
     def add_roll(%Frame{closed: true}, _), do: {:error, "Frame already closed"}

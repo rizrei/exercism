@@ -8,7 +8,8 @@ defmodule Matrix do
   Convert an `input` string, with rows separated by newlines and values
   separated by single spaces, into a `Matrix` struct.
   """
-  @type t :: %__MODULE__{matrix: integer}
+  @type row() :: [integer()]
+  @type t :: %__MODULE__{matrix: [row()]}
 
   @spec from_string(input :: String.t()) :: t()
   def from_string(input) do
