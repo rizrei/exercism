@@ -5,8 +5,8 @@ defmodule Acronym do
   """
   @spec abbreviate(String.t()) :: String.t()
   def abbreviate(string) do
-    string
-    |> String.split([" ", "-", "_"], trim: true)
-    |> Enum.map_join("", &(&1 |> String.at(0) |> String.capitalize()))
+    string |> String.split([" ", "-", "_"], trim: true) |> Enum.map_join("", &upcase_first/1)
   end
+
+  defp upcase_first(str), do: str |> String.at(0) |> String.capitalize()
 end

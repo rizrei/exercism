@@ -16,12 +16,9 @@ defmodule BinarySearch do
       {:ok, 2}
 
   """
-  @spec search(tuple, non_neg_integer()) :: {:ok, non_neg_integer} | :not_found
+  @spec search(tuple(), non_neg_integer()) :: {:ok, non_neg_integer()} | :not_found
   def search({}, _key), do: :not_found
-
-  def search(numbers, key) do
-    do_search(numbers, key, 0, tuple_size(numbers) - 1)
-  end
+  def search(numbers, key), do: do_search(numbers, key, 0, tuple_size(numbers) - 1)
 
   defp do_search(_numbers, _key, low, high) when low > high, do: :not_found
 

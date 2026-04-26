@@ -3,7 +3,7 @@
 defmodule Bob do
   @spec hey(String.t()) :: String.t()
   def hey(input) do
-    input = input |> String.trim()
+    input = String.trim(input)
 
     cond do
       upcase?(input) and question?(input) -> "Calm down, I know what I'm doing!"
@@ -17,5 +17,5 @@ defmodule Bob do
   defp upcase?(input),
     do: String.match?(input, ~r/[[:alpha:]]/ui) and String.upcase(input) == input
 
-  defp question?(input), do: input |> String.ends_with?("?")
+  defp question?(input), do: String.ends_with?(input, "?")
 end

@@ -2,7 +2,8 @@ defmodule BeerSong do
   @moduledoc """
   Get a single verse of the beer song
   """
-  @spec verse(integer) :: String.t()
+
+  @spec verse(integer()) :: String.t()
   def verse(0) do
     """
     No more bottles of beer on the wall, no more bottles of beer.

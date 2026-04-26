@@ -3,7 +3,7 @@ defmodule ArmstrongNumber do
   Provides a way to validate whether or not a number is an Armstrong number
   """
 
-  @spec valid?(integer) :: boolean
+  @spec valid?(integer()) :: boolean()
   def valid?(number) do
     digits_count = number |> Integer.digits() |> Enum.count()
 

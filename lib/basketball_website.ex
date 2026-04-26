@@ -1,17 +1,19 @@
 # credo:disable-for-this-file
 
 defmodule BasketballWebsite do
-  @spec extract_from_path(map, binary) :: any
+  @spec extract_from_path(map(), String.t()) :: any()
   def extract_from_path(data, path) do
-    keys = path |> fetch_keys()
-    data |> do_extract_from_path(keys)
+    path
+    |> fetch_keys()
+    |> do_extract_from_path(data)
   end
 
   defp fetch_keys(path), do: path |> String.split(".")
-  defp do_extract_from_path(nil, _), do: nil
-  defp do_extract_from_path(data, []), do: data
-  defp do_extract_from_path(data, [head | tail]), do: do_extract_from_path(data[head], tail)
+
+  defp do_extract_from_path(_, nil), do: nil
+  defp do_extract_from_path([], data), do: data
+  defp do_extract_from_path([head | tail], data), do: do_extract_from_path(tail, data[head])
 
   @spec get_in_path(any, binary) :: any
-  def get_in_path(data, path), do: data |> get_in(path |> fetch_keys())
+  def get_in_path(data, path), do: get_in(data, fetch_keys(path))
 end

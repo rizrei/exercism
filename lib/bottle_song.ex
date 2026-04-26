@@ -5,7 +5,7 @@ defmodule BottleSong do
 
   @units ~w(no one two three four five six seven eight nine ten)
 
-  @spec recite(pos_integer, pos_integer) :: String.t()
+  @spec recite(pos_integer(), pos_integer()) :: String.t()
   def recite(start_bottle, take_down) do
     start_bottle
     |> Range.new(start_bottle - take_down + 1, -1)

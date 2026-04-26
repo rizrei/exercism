@@ -14,28 +14,23 @@ defmodule Change do
       {:ok, [1, 1, 1, 5, 10]}
 
   """
-  @spec generate(list, integer) :: {:ok, list} | {:error, String.t()}
-  def generate(_coins, target) when target < 0, do: {:error, "cannot change"}
+  @spec generate([integer()], integer()) :: {:ok, [integer()]} | {:error, String.t()}
   def generate(_coins, 0), do: {:ok, []}
+  def generate(_coins, target) when target < 0, do: {:error, "cannot change"}
 
   def generate(coins, target) do
-    changes =
-      1..target
-      |> Enum.reduce(%{0 => []}, &change_for(&1, &2, coins))
-
-    case changes[target] do
-      nil -> {:error, "cannot change"}
-      change -> {:ok, change}
-    end
+    1..target
+    |> Enum.reduce(%{0 => []}, &change_for(&1, &2, coins))
+    |> Map.get(target)
+    |> then(&(&1 && {:ok, &1})) ||
+      {:error, "cannot change"}
   end
 
   defp change_for(target, acc, coins) do
-    change =
-      coins
-      |> Enum.filter(&acc[target - &1])
-      |> Enum.map(&[&1 | acc[target - &1]])
-      |> Enum.min_by(&length/1, fn -> nil end)
-
-    Map.put(acc, target, change)
+    coins
+    |> Enum.filter(&acc[target - &1])
+    |> Enum.map(&[&1 | acc[target - &1]])
+    |> Enum.min_by(&length/1, fn -> nil end)
+    |> then(&Map.put(acc, target, &1))
   end
 end

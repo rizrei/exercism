@@ -4,57 +4,35 @@ defmodule BankAccount do
   defmodule Account do
     defstruct balance: 0, state: :open
 
-    def open() do
-      %Account{}
-    end
+    @type state() :: :open | :closed
+    @type balance() :: integer()
+    @type t() :: %__MODULE__{balance: balance(), state: state()}
 
-    def close(%Account{} = state) do
-      %{state | state: :closed}
-    end
+    @spec open() :: t()
+    def open(), do: %__MODULE__{}
 
-    def balance(%Account{state: :closed}) do
-      {:error, :account_closed}
-    end
+    @spec close(t()) :: t()
+    def close(account), do: %{account | state: :closed}
 
-    def balance(%Account{balance: balance}) do
-      {:ok, balance}
-    end
+    @spec balance(t()) :: {:ok, balance()} | {:error, atom()}
+    def balance(%{state: :closed}), do: {:error, :account_closed}
+    def balance(%{balance: balance}), do: {:ok, balance}
 
-    def deposit(%Account{state: :closed}, _) do
-      {:error, :account_closed}
-    end
+    @spec deposit(t(), integer()) :: {:ok, t()} | {:error, atom()}
+    def deposit(%{state: :closed}, _), do: {:error, :account_closed}
+    def deposit(_, amount) when not is_integer(amount), do: {:error, :invalid_amount}
+    def deposit(_, amount) when amount <= 0, do: {:error, :amount_must_be_positive}
+    def deposit(%{balance: balance} = a, amount), do: {:ok, %{a | balance: balance + amount}}
 
-    def deposit(_, amount) when not is_integer(amount) do
-      {:error, :invalid_amount}
-    end
+    @spec withdraw(t(), integer()) :: {:ok, t()} | {:error, atom()}
+    def withdraw(%{state: :closed}, _), do: {:error, :account_closed}
+    def withdraw(_, amount) when not is_integer(amount), do: {:error, :invalid_amount}
+    def withdraw(_, amount) when amount <= 0, do: {:error, :amount_must_be_positive}
 
-    def deposit(_, amount) when amount <= 0 do
-      {:error, :amount_must_be_positive}
-    end
+    def withdraw(%{balance: balance}, amount) when amount > balance,
+      do: {:error, :not_enough_balance}
 
-    def deposit(%Account{balance: balance} = state, amount) do
-      {:ok, %Account{state | balance: balance + amount}}
-    end
-
-    def withdraw(%Account{state: :closed}, _) do
-      {:error, :account_closed}
-    end
-
-    def withdraw(_, amount) when not is_integer(amount) do
-      {:error, :invalid_amount}
-    end
-
-    def withdraw(_, amount) when amount <= 0 do
-      {:error, :amount_must_be_positive}
-    end
-
-    def withdraw(%Account{balance: balance}, amount) when amount > balance do
-      {:error, :not_enough_balance}
-    end
-
-    def withdraw(%Account{balance: balance} = state, amount) do
-      {:ok, %Account{state | balance: balance - amount}}
-    end
+    def withdraw(%{balance: balance} = a, amount), do: {:ok, %{a | balance: balance - amount}}
   end
 
   use GenServer
@@ -66,12 +44,12 @@ defmodule BankAccount do
   @typedoc """
   An account handle.
   """
-  @opaque account :: pid
+  @opaque account() :: pid()
 
   @doc """
   Open the bank account, making it available for further operations.
   """
-  @spec open() :: account
+  @spec open() :: account()
   def open() do
     {:ok, pid} = GenServer.start_link(__MODULE__, nil)
     pid
@@ -80,69 +58,56 @@ defmodule BankAccount do
   @doc """
   Close the bank account, making it unavailable for further operations.
   """
-  @spec close(account) :: any
-  def close(account) do
-    GenServer.cast(account, :close)
-  end
+  @spec close(account()) :: :ok
+  def close(account), do: GenServer.cast(account, :close)
 
   @doc """
   Get the account's balance.
   """
-  @spec balance(account) :: integer | {:error, :account_closed}
-  def balance(account) do
-    GenServer.call(account, :balance)
-  end
+  @spec balance(account()) :: integer() | {:error, :account_closed}
+  def balance(account), do: GenServer.call(account, :balance)
 
   @doc """
   Add the given amount to the account's balance.
   """
-  @spec deposit(account, integer) :: :ok | {:error, :account_closed | :amount_must_be_positive}
-  def deposit(account, amount) do
-    GenServer.call(account, {:deposit, amount})
-  end
+  @type deposit_error() :: :account_closed | :amount_must_be_positive
+  @spec deposit(account(), integer()) :: :ok | {:error, deposit_error()}
+  def deposit(account, amount), do: GenServer.call(account, {:deposit, amount})
 
   @doc """
   Subtract the given amount from the account's balance.
   """
-  @spec withdraw(account, integer) ::
-          :ok | {:error, :account_closed | :amount_must_be_positive | :not_enough_balance}
-  def withdraw(account, amount) do
-    GenServer.call(account, {:withdraw, amount})
-  end
+  @type withdraw_error() :: :account_closed | :amount_must_be_positive | :not_enough_balance
+  @spec withdraw(account(), integer()) :: :ok | {:error, withdraw_error()}
+  def withdraw(account, amount), do: GenServer.call(account, {:withdraw, amount})
 
   # Server callbacks
 
   @impl true
-  def init(_keywords) do
-    {:ok, %Account{}}
-  end
-
-  @impl true
-  def handle_cast(:close, state) do
-    {:noreply, Account.close(state)}
-  end
+  def init(_), do: {:ok, Account.open()}
 
   @impl true
   def handle_call(:balance, _from, state) do
     case Account.balance(state) do
       {:ok, balance} -> {:reply, balance, state}
-      error -> {:reply, error, state}
+      {:error, _} = error -> {:reply, error, state}
     end
   end
 
-  @impl true
   def handle_call({:deposit, amount}, _from, state) do
     case Account.deposit(state, amount) do
       {:ok, new_state} -> {:reply, :ok, new_state}
-      error -> {:reply, error, state}
+      {:error, _} = error -> {:reply, error, state}
+    end
+  end
+
+  def handle_call({:withdraw, amount}, _from, state) do
+    case Account.withdraw(state, amount) do
+      {:ok, new_state} -> {:reply, :ok, new_state}
+      {:error, _} = error -> {:reply, error, state}
     end
   end
 
   @impl true
-  def handle_call({:withdraw, amount}, _from, state) do
-    case Account.withdraw(state, amount) do
-      {:ok, new_state} -> {:reply, :ok, new_state}
-      error -> {:reply, error, state}
-    end
-  end
+  def handle_cast(:close, state), do: {:noreply, Account.close(state)}
 end
