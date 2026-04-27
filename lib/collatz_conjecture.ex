@@ -8,10 +8,10 @@ defmodule CollatzConjecture do
     - if number is even, divide by 2
   """
 
-  @spec calc(input :: pos_integer()) :: non_neg_integer()
+  @spec calc(pos_integer()) :: non_neg_integer()
   def calc(input) when is_integer(input) and input > 0, do: do_calc(input, 0)
 
-  @spec do_calc(input :: pos_integer(), counter :: non_neg_integer()) :: non_neg_integer()
+  @spec do_calc(pos_integer(), non_neg_integer()) :: non_neg_integer()
   defp do_calc(1, counter), do: counter
 
   defp do_calc(input, counter) when is_odd(input) do
