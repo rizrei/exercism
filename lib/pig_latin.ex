@@ -5,7 +5,7 @@ defmodule PigLatin do
 
   @vowels ~w[a e i o u]
 
-  @spec translate(phrase :: String.t()) :: String.t()
+  @spec translate(String.t()) :: String.t()
   def translate(phrase) do
     phrase |> String.split(" ") |> Enum.map_join(" ", &pigify/1)
   end

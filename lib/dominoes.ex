@@ -5,8 +5,7 @@ defmodule Dominoes do
   chain?/1 takes a list of domino stones and returns boolean indicating if it's
   possible to make a full chain
   """
-  @spec chain?(dominoes :: [domino]) :: boolean
-
+  @spec chain?([domino()]) :: boolean()
   def chain?([]), do: true
   def chain?([{a, a}]), do: true
   def chain?([{_a, _b}]), do: false

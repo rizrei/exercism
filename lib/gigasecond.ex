@@ -3,8 +3,7 @@ defmodule Gigasecond do
   Calculate a date one billion seconds after an input date.
   """
 
-  @spec from({{pos_integer, pos_integer, pos_integer}, {pos_integer, pos_integer, pos_integer}}) ::
-          {{pos_integer, pos_integer, pos_integer}, {pos_integer, pos_integer, pos_integer}}
+  @spec from(:calendar.datetime()) :: :calendar.datetime()
   def from(date) do
     date
     |> NaiveDateTime.from_erl!()

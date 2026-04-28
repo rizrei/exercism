@@ -3,25 +3,25 @@
 defmodule HighScore do
   @default_score 0
 
+  @type name() :: String.t()
+  @type score() :: integer()
+  @type scores() :: %{name() => score()}
+
   @spec new :: %{}
   def new(), do: %{}
 
-  @spec add_player(map, String.t(), integer) :: map
-  def add_player(scores, name, score \\ @default_score) do
-    scores |> Map.put(name, score)
-  end
+  @spec add_player(scores(), name(), score()) :: scores()
+  def add_player(scores, name, score \\ @default_score), do: Map.put(scores, name, score)
 
-  @spec remove_player(map, String.t()) :: map
-  def remove_player(scores, name), do: scores |> Map.delete(name)
+  @spec remove_player(scores(), String.t()) :: scores()
+  def remove_player(scores, name), do: Map.delete(scores, name)
 
-  @spec reset_score(map, String.t()) :: map
-  def reset_score(scores, name), do: scores |> add_player(name)
+  @spec reset_score(scores(), String.t()) :: scores()
+  def reset_score(scores, name), do: add_player(scores, name)
 
-  @spec update_score(map, String.t(), integer) :: map
-  def update_score(scores, name, score) do
-    scores |> Map.update(name, score, &(&1 + score))
-  end
+  @spec update_score(scores(), String.t(), score()) :: scores()
+  def update_score(scores, name, score), do: Map.update(scores, name, score, &(&1 + score))
 
-  @spec get_players(map) :: list
-  def get_players(scores), do: scores |> Map.keys()
+  @spec get_players(scores()) :: [score()]
+  def get_players(scores), do: Map.keys(scores)
 end

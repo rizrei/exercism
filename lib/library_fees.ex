@@ -1,10 +1,10 @@
 # credo:disable-for-this-file
 
 defmodule LibraryFees do
-  @spec datetime_from_string(binary) :: NaiveDateTime.t()
+  @spec datetime_from_string(String.t()) :: NaiveDateTime.t()
   def datetime_from_string(string), do: NaiveDateTime.from_iso8601!(string)
 
-  @spec before_noon?(NaiveDateTime.t()) :: boolean
+  @spec before_noon?(NaiveDateTime.t()) :: boolean()
   def before_noon?(%NaiveDateTime{hour: hour}), do: hour < 12
 
   @spec return_date(NaiveDateTime.t()) :: Date.t()
@@ -20,7 +20,7 @@ defmodule LibraryFees do
     if before_noon?(checkout_datetime), do: 28, else: 29
   end
 
-  @spec days_late(Date.t(), NaiveDateTime.t()) :: integer
+  @spec days_late(Date.t(), NaiveDateTime.t()) :: integer()
   def days_late(planned_return_date, actual_return_datetime) do
     actual_return_datetime
     |> NaiveDateTime.to_date()
@@ -28,7 +28,7 @@ defmodule LibraryFees do
     |> max(0)
   end
 
-  @spec monday?(NaiveDateTime.t()) :: boolean
+  @spec monday?(NaiveDateTime.t()) :: boolean()
   def monday?(datetime) do
     datetime |> NaiveDateTime.to_date() |> Date.day_of_week() == 1
   end

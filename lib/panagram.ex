@@ -14,7 +14,7 @@ defmodule Pangram do
 
   @alphabet ?a..?z |> Enum.map(&<<&1>>)
 
-  @spec pangram?(String.t()) :: boolean
+  @spec pangram?(String.t()) :: boolean()
   def pangram?(sentence) do
     sentence_graphemes = sentence |> String.downcase() |> String.graphemes()
 

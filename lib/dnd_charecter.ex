@@ -1,7 +1,7 @@
 # credo:disable-for-this-file
 
 defmodule DndCharacter do
-  @type t :: %__MODULE__{
+  @type t() :: %__MODULE__{
           strength: pos_integer(),
           dexterity: pos_integer(),
           constitution: pos_integer(),
@@ -16,13 +16,13 @@ defmodule DndCharacter do
   @spec modifier(pos_integer()) :: integer()
   def modifier(score), do: floor((score - 10) / 2)
 
-  @spec ability :: pos_integer()
-  def ability do
+  @spec ability() :: pos_integer()
+  def ability() do
     1..6 |> Enum.take_random(4) |> Enum.sort() |> List.delete_at(0) |> Enum.sum()
   end
 
-  @spec character :: t()
-  def character do
+  @spec character() :: t()
+  def character() do
     character = %__MODULE__{
       strength: ability(),
       dexterity: ability(),

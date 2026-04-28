@@ -2,7 +2,7 @@ defmodule Prime do
   @moduledoc """
   Generates the nth prime.
   """
-  @spec nth(non_neg_integer) :: non_neg_integer
+  @spec nth(non_neg_integer()) :: non_neg_integer()
   def nth(count) do
     Stream.iterate(2, &(&1 + 1))
     |> Stream.filter(&prime?/1)

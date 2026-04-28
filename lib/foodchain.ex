@@ -13,7 +13,7 @@ defmodule FoodChain do
   @moduledoc """
   Generate consecutive verses of the song 'I Know an Old Lady Who Swallowed a Fly'.
   """
-  @spec recite(start :: integer, stop :: integer) :: String.t()
+  @spec recite(integer(), integer()) :: String.t()
   def recite(start, stop), do: Enum.map_join(start..stop, "\n", &verse/1)
 
   defp verse(1) do

@@ -1,17 +1,19 @@
 # credo:disable-for-this-file
 
 defmodule LogParser do
-  def valid_line?(line), do: line |> String.match?(~r/\A\[(DEBUG|INFO|WARNING|ERROR)\].*\z/)
+  @spec valid_line?(String.t()) :: boolean()
+  def valid_line?(line), do: String.match?(line, ~r/\A\[(DEBUG|INFO|WARNING|ERROR)\].*\z/)
 
-  def split_line(line), do: line |> String.split(~r/<(~|\*|=|and|-)*>/)
+  @spec split_line(String.t()) :: [String.t()]
+  def split_line(line), do: String.split(line, ~r/<(~|\*|=|and|-)*>/)
 
-  def remove_artifacts(line), do: line |> String.replace(~r/end-of-line\d+/i, "")
+  @spec remove_artifacts(String.t()) :: String.t()
+  def remove_artifacts(line), do: String.replace(line, ~r/end-of-line\d+/i, "")
 
+  @spec tag_with_user_name(String.t()) :: String.t()
   def tag_with_user_name(line) do
-    name = ~r/User\s+(?<name>\S+)/ |> Regex.run(line, capture: :all_names)
-    do_tag_with_user_name(line, name)
+    ~r/User\s+(?<name>\S+)/
+    |> Regex.run(line, capture: :all_names)
+    |> then(&(&1 && Enum.join(["[USER]", hd(&1), line], " "))) || line
   end
-
-  defp do_tag_with_user_name(line, nil), do: line
-  defp do_tag_with_user_name(line, [name | _]), do: ["[USER]", name, line] |> Enum.join(" ")
 end

@@ -2,7 +2,7 @@ defmodule Luhn do
   @moduledoc """
   Checks if the given number is valid via the luhn formula
   """
-  @spec valid?(String.t()) :: boolean
+  @spec valid?(String.t()) :: boolean()
   def valid?(number) do
     with true <- number |> String.trim() |> valid_number?() do
       number
@@ -21,12 +21,11 @@ defmodule Luhn do
   defp luhn_sum(list) do
     list
     |> Enum.reverse()
-    |> Stream.map(&String.to_integer/1)
-    |> Enum.with_index(&transformer/2)
-    |> Enum.sum()
+    |> Enum.with_index(&{String.to_integer(&1), &2})
+    |> Enum.sum_by(&mapper/1)
   end
 
-  defp transformer(num, index) when rem(index, 2) != 0 and num * 2 > 9, do: num * 2 - 9
-  defp transformer(num, index) when rem(index, 2) != 0, do: num * 2
-  defp transformer(num, _), do: num
+  defp mapper({num, index}) when rem(index, 2) != 0 and num * 2 > 9, do: num * 2 - 9
+  defp mapper({num, index}) when rem(index, 2) != 0, do: num * 2
+  defp mapper({num, _}), do: num
 end

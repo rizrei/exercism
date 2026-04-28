@@ -5,17 +5,20 @@ defmodule PhoneNumber do
 
   @spec clean(String.t()) :: {:ok, String.t()} | {:error, String.t()}
   def clean(raw) do
-    str =
-      raw
-      |> String.replace(~w(\( \) - . +), "")
-      |> String.replace(~r/\s+/, "")
-
-    with {:ok, str} <- check_digits(str),
+    with {:ok, str} <- normalize(raw),
+         {:ok, str} <- check_digits(str),
          {:ok, str, length} <- check_length(str),
          {:ok, str} <- check_country_code(str, length),
          {:ok, str} <- check_area_code(str) do
       check_exchange_code(str)
     end
+  end
+
+  defp normalize(raw) do
+    {:ok,
+     raw
+     |> String.replace(~w(\( \) - . +), "")
+     |> String.replace(~r/\s+/, "")}
   end
 
   defp check_digits(str) do

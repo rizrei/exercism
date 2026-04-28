@@ -13,9 +13,9 @@ defmodule LanguageList do
   @spec first([String.t()]) :: String.t()
   def first([head | _]), do: head
 
-  @spec count([String.t()]) :: non_neg_integer
-  def count(list), do: list |> length()
+  @spec count([String.t()]) :: non_neg_integer()
+  def count(list), do: length(list)
 
-  @spec functional_list?([String.t()]) :: boolean
-  def functional_list?(list), do: list |> Enum.member?("Elixir")
+  @spec functional_list?([String.t()]) :: boolean()
+  def functional_list?(list), do: Enum.member?(list, "Elixir")
 end

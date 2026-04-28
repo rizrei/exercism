@@ -23,8 +23,8 @@ defmodule Frequency do
   def frequency(texts, workers) do
     texts
     |> Task.async_stream(Worker, :run, [], ordered: false, max_concurrency: workers)
-    |> Enum.reduce(%{}, fn {:ok, freq}, acc ->
-      Map.merge(acc, freq, fn _key, v1, v2 -> v1 + v2 end)
-    end)
+    |> Stream.filter(&match?({:ok, _}, &1))
+    |> Stream.map(fn {:ok, freq} -> freq end)
+    |> Enum.reduce(%{}, &Map.merge(&2, &1, fn _key, v1, v2 -> v1 + v2 end))
   end
 end

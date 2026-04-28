@@ -6,14 +6,14 @@ defmodule ProteinTranslation do
   @doc """
   Given an RNA string, return a list of proteins specified by codons, in order.
   """
-  @spec of_rna(String.t()) :: {:ok, list(String.t())} | {:error, String.t()}
-  def of_rna(rna), do: rna |> do_of_rna([])
+  @spec of_rna(String.t()) :: {:ok, [String.t()]} | {:error, String.t()}
+  def of_rna(rna), do: do_of_rna(rna, [])
 
-  defp do_of_rna(<<>>, acc), do: {:ok, Enum.reverse(acc)}
+  defp do_of_rna("", acc), do: {:ok, Enum.reverse(acc)}
 
   defp do_of_rna(<<codon::binary-size(3), t::binary>>, acc) do
     case of_codon(codon) do
-      {:ok, "STOP"} -> do_of_rna(<<>>, acc)
+      {:ok, "STOP"} -> do_of_rna("", acc)
       {:ok, protein} -> do_of_rna(t, [protein | acc])
       _ -> {:error, "invalid RNA"}
     end

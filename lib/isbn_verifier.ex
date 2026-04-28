@@ -19,6 +19,6 @@ defmodule IsbnVerifier do
 
   def do_isbn?(<<c, rest::binary>>, n, sum) when c == ?-, do: do_isbn?(rest, n, sum)
   def do_isbn?("X", _, sum), do: do_isbn?(<<>>, 0, sum + 10)
-  def do_isbn?(<<>>, 0, sum), do: sum |> Integer.mod(11) == 0
+  def do_isbn?(<<>>, 0, sum), do: Integer.mod(sum, 11) == 0
   def do_isbn?(_, _, _), do: false
 end

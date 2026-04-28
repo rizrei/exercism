@@ -7,6 +7,7 @@ defmodule Rectangles do
   @type column() :: non_neg_integer()
   @type point() :: {row(), column()}
   @type grid() :: %{point() => String.t()}
+
   @spec count(String.t()) :: non_neg_integer()
   def count(""), do: 0
 

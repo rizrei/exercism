@@ -24,21 +24,23 @@ defmodule Garden do
   ]
   @plants %{"C" => :clover, "G" => :grass, "R" => :radishes, "V" => :violets}
 
-  @spec info(String.t(), list) :: map
+  @spec info(String.t(), [atom()]) :: map()
   def info(info_string, student_names \\ @student_names) do
     plants =
       info_string
       |> String.split("\n")
-      |> Enum.map(&String.graphemes/1)
-      |> Enum.map(&Enum.map(&1, fn x -> Map.get(@plants, x) end))
-      |> Enum.map(&Enum.chunk_every(&1, 2))
+      |> Enum.map(&cups_mappeer/1)
       |> Enum.zip()
-      |> Enum.map(fn {x, y} -> (x ++ y) |> List.to_tuple() end)
+      |> Enum.map(fn {x, y} -> List.to_tuple(x ++ y) end)
 
     student_names
     |> Enum.sort()
     |> Enum.with_index()
     |> Enum.map(fn {name, index} -> {name, Enum.at(plants, index, {})} end)
     |> Map.new()
+  end
+
+  def cups_mappeer(cup) do
+    cup |> String.graphemes() |> Enum.map(&Map.get(@plants, &1)) |> Enum.chunk_every(2)
   end
 end

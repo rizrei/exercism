@@ -6,8 +6,8 @@ defmodule Darts do
   @moduledoc """
   Calculate the score of a single dart hitting a target
   """
-  @type position :: {number, number}
-  @spec score(position) :: integer
+  @type position :: {number(), number()}
+  @spec score(position()) :: integer()
   def score({x, y}) do
     position_radius = :math.sqrt(:math.pow(x, 2) + :math.pow(y, 2))
 

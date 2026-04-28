@@ -4,6 +4,6 @@ defmodule Isogram do
   @moduledoc """
   Determines if a word or sentence is an isogram
   """
-  @spec isogram?(String.t()) :: boolean
-  def isogram?(sentence), do: sentence |> String.match?(@regex) |> Kernel.not()
+  @spec isogram?(String.t()) :: boolean()
+  def isogram?(sentence), do: not String.match?(sentence, @regex)
 end
