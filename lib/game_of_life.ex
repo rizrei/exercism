@@ -24,8 +24,7 @@ defmodule GameOfLife do
 
   defp alive_cells(matrix) do
     for {row, x} <- Enum.with_index(matrix),
-        {value, y} <- Enum.with_index(row),
-        value == 1,
+        {1, y} <- Enum.with_index(row),
         into: MapSet.new() do
       {x, y}
     end
