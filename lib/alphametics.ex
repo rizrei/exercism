@@ -9,55 +9,53 @@ defmodule Alphametics do
 
   ## Examples
 
-    iex> Alphametics.solve("I + BB == ILL")
-    %{?I => 1, ?B => 9, ?L => 0}
+      iex> Alphametics.solve("I + BB == ILL")
+      %{?I => 1, ?B => 9, ?L => 0}
 
-    iex> Alphametics.solve("A == B")
-    nil
+      iex> Alphametics.solve("A == B")
+      nil
   """
 
   @spec solve(puzzle()) :: solution() | nil
   def solve(puzzle) do
-    graphemes = graphemes(puzzle)
+    {total, terms} =
+      puzzle
+      |> String.split(~r/ \+ | \=\= /)
+      |> Enum.map(&to_charlist/1)
+      |> List.pop_at(-1)
 
-    0..9
-    |> Enum.to_list()
-    |> permutations(length(graphemes))
-    |> find_solution(puzzle, graphemes)
+    leading_chars = [hd(total) | Enum.map(terms, &hd/1)] |> Enum.uniq()
+
+    rest_chars =
+      for <<char <- puzzle>>, char in ?A..?Z, char not in leading_chars, uniq: true, do: char
+
+    leading_chars
+    |> permutations(rest_chars)
+    |> Enum.find(&valid?(&1, terms, total))
   end
 
-  defp graphemes(puzzle) do
-    for <<char <- puzzle>>, char in ?A..?Z, uniq: true, do: char
-  end
+  defp permutations(leading, letters, taken \\ [])
+  defp permutations([], [], _taken), do: [%{}]
 
-  defp permutations(_list, 0), do: [[]]
-
-  defp permutations(list, len) do
-    for elem <- list, rest <- permutations(list -- [elem], len - 1) do
-      [elem | rest]
+  defp permutations([head | leading], letters, taken) do
+    for val <- Enum.to_list(1..9) -- taken,
+        perm <- permutations(leading, letters, [val | taken]) do
+      Map.put(perm, head, val)
     end
   end
 
-  defp find_solution([], _, _), do: nil
-
-  defp find_solution([digits | tail], puzzle, graphemes) do
-    solution = graphemes |> Enum.zip(digits) |> Map.new()
-
-    if valid?(solution, puzzle), do: solution, else: find_solution(tail, puzzle, graphemes)
+  defp permutations([], [head | letters], taken) do
+    for val <- Enum.to_list(0..9) -- taken,
+        perm <- permutations([], letters, [val | taken]) do
+      Map.put(perm, head, val)
+    end
   end
 
-  defp valid?(solution, puzzle) do
-    word_equation =
-      Enum.reduce(solution, puzzle, fn {char, digit}, equation ->
-        String.replace(equation, <<char>>, to_string(digit))
-      end)
-
-    valid_word_equation(word_equation) and not leading_zero?(word_equation)
+  defp valid?(solution, terms, total) do
+    to_int(total, solution) == terms |> Enum.map(&to_int(&1, solution)) |> Enum.sum()
   end
 
-  defp valid_word_equation(word_equation) do
-    Code.eval_string(word_equation) |> then(fn {solved?, []} -> solved? end)
+  defp to_int(chars, solution) do
+    Enum.reduce(chars, 0, fn char, n -> 10 * n + Map.get(solution, char) end)
   end
-
-  defp leading_zero?(word_equation), do: String.match?(word_equation, ~r/\b0/)
 end
