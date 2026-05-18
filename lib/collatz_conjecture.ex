@@ -13,12 +13,6 @@ defmodule CollatzConjecture do
 
   @spec do_calc(pos_integer(), non_neg_integer()) :: non_neg_integer()
   defp do_calc(1, counter), do: counter
-
-  defp do_calc(input, counter) when is_odd(input) do
-    input |> Kernel.*(3) |> Kernel.+(1) |> do_calc(counter + 1)
-  end
-
-  defp do_calc(input, counter) when is_even(input) do
-    input |> div(2) |> do_calc(counter + 1)
-  end
+  defp do_calc(input, counter) when is_odd(input), do: do_calc(input * 3 + 1, counter + 1)
+  defp do_calc(input, counter) when is_even(input), do: do_calc(div(input, 2), counter + 1)
 end

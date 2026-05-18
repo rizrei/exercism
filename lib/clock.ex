@@ -29,13 +29,11 @@ defmodule Clock do
       "10:03"
   """
   @spec add(t(), integer()) :: t()
-  def add(%Clock{hour: hour, minute: minute}, add_minute) do
-    new(hour, minute + add_minute)
-  end
+  def add(%Clock{hour: h, minute: m}, add_minute), do: new(h, m + add_minute)
 
   defimpl String.Chars do
-    def to_string(%Clock{hour: hour, minute: minute}) do
-      :io_lib.format("~2..0w:~2..0w", [hour, minute]) |> Kernel.to_string()
+    def to_string(%Clock{hour: h, minute: m}) do
+      "~2..0w:~2..0w" |> :io_lib.format([h, m]) |> Kernel.to_string()
     end
   end
 end

@@ -6,33 +6,18 @@ defmodule Dominoes do
   possible to make a full chain
   """
   @spec chain?([domino()]) :: boolean()
+
   def chain?([]), do: true
-  def chain?([{a, a}]), do: true
-  def chain?([{_a, _b}]), do: false
-  def chain?(dominoes), do: [] !== chains(dominoes)
+  def chain?([{n1, n2}]), do: n1 == n2
 
-  defp chains(dominoes) do
-    for [first | tail] <- permutations(dominoes),
-        {:ok, result} <- do_chain(tail, [first]),
-        do: result
+  def chain?([{n1, n2} | dominoes]) do
+    Enum.any?(
+      dominoes,
+      fn
+        {^n1, x} = domino -> chain?([{n2, x} | List.delete(dominoes, domino)])
+        {x, ^n1} = domino -> chain?([{n2, x} | List.delete(dominoes, domino)])
+        _ -> false
+      end
+    )
   end
-
-  defp do_chain([], acc) do
-    {a, _} = List.first(acc)
-    {_, b} = List.last(acc)
-    if a == b, do: [{:ok, acc}], else: [{:error, "start and end does not match"}]
-  end
-
-  defp do_chain([{a, b} | tail], [{c, _} | _] = acc) do
-    cond do
-      a == c -> do_chain(tail, [{b, a} | acc])
-      b == c -> do_chain(tail, [{a, b} | acc])
-      true -> [{:error, "not a chain"}]
-    end
-  end
-
-  defp permutations([]), do: [[]]
-
-  defp permutations(list),
-    do: for(elem <- list, rest <- permutations(list -- [elem]), do: [elem | rest])
 end
