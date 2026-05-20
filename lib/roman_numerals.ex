@@ -1,20 +1,33 @@
 defmodule RomanNumerals do
-  @moduledoc """
+  @roman %{
+    1 => "I",
+    4 => "IV",
+    5 => "V",
+    9 => "IX",
+    10 => "X",
+    40 => "XL",
+    50 => "L",
+    90 => "XC",
+    100 => "C",
+    400 => "CD",
+    500 => "D",
+    900 => "CM",
+    1000 => "M"
+  }
+
+  @roman_keys Map.keys(@roman) |> Enum.sort(:desc)
+
+  @doc """
   Convert the number to a roman number.
   """
-  @spec numeral(pos_integer) :: String.t()
-  def numeral(0), do: ""
-  def numeral(number) when number >= 1000, do: "M" <> numeral(number - 1000)
-  def numeral(number) when number >= 900, do: "CM" <> numeral(number - 900)
-  def numeral(number) when number >= 500, do: "D" <> numeral(number - 500)
-  def numeral(number) when number >= 400, do: "CD" <> numeral(number - 400)
-  def numeral(number) when number >= 100, do: "C" <> numeral(number - 100)
-  def numeral(number) when number >= 90, do: "XC" <> numeral(number - 90)
-  def numeral(number) when number >= 50, do: "L" <> numeral(number - 50)
-  def numeral(number) when number >= 40, do: "XL" <> numeral(number - 40)
-  def numeral(number) when number >= 10, do: "X" <> numeral(number - 10)
-  def numeral(number) when number >= 9, do: "IX" <> numeral(number - 9)
-  def numeral(number) when number >= 5, do: "V" <> numeral(number - 5)
-  def numeral(number) when number >= 4, do: "IV" <> numeral(number - 4)
-  def numeral(number) when number >= 1, do: "I" <> numeral(number - 1)
+  @spec numeral(pos_integer()) :: String.t()
+  def numeral(number), do: to_roman(@roman_keys, number, "")
+
+  defp to_roman(_, 0, result), do: result
+
+  defp to_roman([max | _] = keys, number, result) when number >= max do
+    to_roman(keys, number - max, result <> @roman[max])
+  end
+
+  defp to_roman([_ | rest], number, result), do: to_roman(rest, number, result)
 end
