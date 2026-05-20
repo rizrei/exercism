@@ -18,7 +18,7 @@ defmodule School do
   """
   @spec add(school, String.t(), integer) :: {:ok | :error, school}
   def add(school, name, grade) do
-    case school |> Enum.find(&(&1.name == name)) do
+    case Enum.find(school, &(&1.name == name)) do
       nil -> {:ok, [%{name: name, grade: grade} | school]}
       _ -> {:error, school}
     end
