@@ -1,14 +1,23 @@
 defmodule Username do
-  @moduledoc """
-  VariableLengthQuantity
-  """
+  @replacements %{
+    ?ä => ~c"ae",
+    ?ö => ~c"oe",
+    ?ü => ~c"ue",
+    ?ß => ~c"ss",
+    ?_ => ~c"_"
+  }
+
   @spec sanitize(charlist) :: charlist
   def sanitize([]), do: []
-  def sanitize([head | tail]) when head in ?a..?z, do: [head | sanitize(tail)]
-  def sanitize([?ä | tail]), do: ~c"ae" ++ sanitize(tail)
-  def sanitize([?ö | tail]), do: ~c"oe" ++ sanitize(tail)
-  def sanitize([?ü | tail]), do: ~c"ue" ++ sanitize(tail)
-  def sanitize([?ß | tail]), do: ~c"ss" ++ sanitize(tail)
-  def sanitize([?_ | tail]), do: ~c"_" ++ sanitize(tail)
-  def sanitize([_ | tail]), do: sanitize(tail)
+
+  def sanitize([head | tail]) do
+    replacement =
+      case head do
+        char when char in ?a..?z -> [char]
+        char when is_map_key(@replacements, char) -> [@replacements[char]]
+        _ -> ~c""
+      end
+
+    replacement ++ sanitize(tail)
+  end
 end
