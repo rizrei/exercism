@@ -3,7 +3,6 @@ defmodule DotTest do
 
   alias Dot.Graph
 
-  require Dot
   # Expand at RunTime, used to avoid invalid macro calls preventing compilation
   # of the tests.
   #
@@ -12,6 +11,7 @@ defmodule DotTest do
     escaped = Macro.escape(ast)
 
     quote do
+      require Dot
       Code.eval_quoted(unquote(escaped), [], __ENV__) |> elem(0)
     end
   end

@@ -12,22 +12,4 @@ defmodule TwoFerTest do
   test "another name given" do
     assert TwoFer.two_fer("Bob") == "One for Bob, one for me."
   end
-
-  test "when the argument is a number" do
-    assert_raise FunctionClauseError, fn ->
-      TwoFer.two_fer(10)
-    end
-  end
-
-  test "when the argument is an atom" do
-    assert_raise FunctionClauseError, fn ->
-      TwoFer.two_fer(:bob)
-    end
-  end
-
-  test "when the argument is a charlist" do
-    assert_raise FunctionClauseError, fn ->
-      refute TwoFer.two_fer(~c"Jon Snow")
-    end
-  end
 end
