@@ -12,6 +12,11 @@ defmodule FlattenArray do
 
   """
 
-  @spec flatten(list) :: list
-  def flatten(list), do: list |> List.flatten() |> Enum.filter(& &1)
+  @spec flatten(list()) :: list()
+  def flatten(list), do: do_flatten(list, [])
+
+  defp do_flatten([], acc), do: acc
+  defp do_flatten([nil | t], acc), do: do_flatten(t, acc)
+  defp do_flatten([h | t], acc) when is_list(h), do: do_flatten(h, do_flatten(t, acc))
+  defp do_flatten([h | t], acc), do: [h | do_flatten(t, acc)]
 end
