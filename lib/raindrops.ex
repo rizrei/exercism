@@ -9,13 +9,17 @@ defmodule Raindrops do
     just pass the number's digits straight through.
   """
 
-  defguardp is_raindrop(n) when rem(n, 3) == 0 or rem(n, 5) == 0 or rem(n, 7) == 0
-
   @raindrops %{3 => "Pling", 5 => "Plang", 7 => "Plong"}
 
   @spec convert(pos_integer()) :: String.t()
-  def convert(n) when is_raindrop(n),
-    do: for({f, sound} <- @raindrops, rem(n, f) == 0, into: "", do: sound)
+  def convert(n) do
+    case raindrop_string(n) do
+      "" -> Integer.to_string(n)
+      sound -> sound
+    end
+  end
 
-  def convert(n), do: Integer.to_string(n)
+  defp raindrop_string(n) do
+    for {number, sound} <- @raindrops, rem(n, number) == 0, into: "", do: sound
+  end
 end
