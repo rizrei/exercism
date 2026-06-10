@@ -5,21 +5,16 @@ defmodule PalindromeProducts do
 
   @spec generate(non_neg_integer(), non_neg_integer()) :: map()
   def generate(max_factor, min_factor \\ 1)
+  def generate(max, min) when min > max, do: raise(ArgumentError)
 
-  def generate(max_factor, min_factor) when min_factor < max_factor do
-    prods =
-      for a <- min_factor..max_factor, b <- a..max_factor, palindrome?(a * b), reduce: %{} do
-        acc -> Map.update(acc, a * b, [[a, b]], &[[a, b] | &1])
-      end
-
-    if prods == %{}, do: %{}, else: prods |> Enum.min_max() |> Tuple.to_list() |> Map.new()
+  def generate(max_factor, min_factor) do
+    for x <- min_factor..max_factor,
+        y <- x..max_factor,
+        palindrome?(x * y),
+        reduce: %{} do
+      acc -> Map.update(acc, x * y, [[x, y]], &[[x, y] | &1])
+    end
   end
 
-  def generate(factor, factor), do: %{}
-  def generate(_, _), do: raise(ArgumentError)
-
-  defp palindrome?(n) do
-    s = Integer.to_string(n)
-    s == String.reverse(s)
-  end
+  defp palindrome?(number), do: number |> Integer.to_string() |> then(&(&1 == String.reverse(&1)))
 end
