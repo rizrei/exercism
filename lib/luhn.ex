@@ -4,28 +4,25 @@ defmodule Luhn do
   """
   @spec valid?(String.t()) :: boolean()
   def valid?(number) do
-    with true <- number |> String.trim() |> valid_number?() do
-      number
-      |> digits()
-      |> luhn_sum()
-      |> Kernel.rem(10)
-      |> Kernel.==(0)
+    case digitize(number) do
+      {:ok, rev_digits_list} -> rev_digits_list |> luhn_sum() |> then(&(rem(&1, 10) == 0))
+      _ -> false
     end
   end
 
-  defp valid_number?("0"), do: false
-  defp valid_number?(number), do: number =~ ~r/^(\d|\s)+$/
+  defp digitize(number, acc \\ [], length \\ 0)
+  defp digitize("", _, length) when length <= 1, do: {:error, :invalid_input}
+  defp digitize("", acc, _), do: {:ok, acc}
+  defp digitize(" " <> rest, acc, length), do: digitize(rest, acc, length)
 
-  defp digits(number), do: ~r/\d/ |> Regex.scan(number) |> List.flatten()
+  defp digitize(<<c, rest::binary>>, acc, length) when c in ?0..?9,
+    do: digitize(rest, [c - ?0 | acc], length + 1)
 
-  defp luhn_sum(list) do
-    list
-    |> Enum.reverse()
-    |> Enum.with_index(&{String.to_integer(&1), &2})
-    |> Enum.sum_by(&mapper/1)
-  end
+  defp digitize(_, _, _), do: {:error, :invalid_input}
 
-  defp mapper({num, index}) when rem(index, 2) != 0 and num * 2 > 9, do: num * 2 - 9
-  defp mapper({num, index}) when rem(index, 2) != 0, do: num * 2
-  defp mapper({num, _}), do: num
+  defp luhn_sum(list, acc \\ 0, double \\ false)
+  defp luhn_sum([], acc, _), do: acc
+  defp luhn_sum([h | t], acc, true) when h > 4, do: luhn_sum(t, acc + h * 2 - 9, false)
+  defp luhn_sum([h | t], acc, true), do: luhn_sum(t, acc + h * 2, false)
+  defp luhn_sum([h | t], acc, double), do: luhn_sum(t, acc + h, not double)
 end
