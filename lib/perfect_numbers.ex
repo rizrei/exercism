@@ -11,7 +11,7 @@ defmodule PerfectNumbers do
   :abundant if the aliquot sum is greater than `number`
   :deficient if the aliquot sum is less than `number`
   """
-  @spec classify(number :: integer) :: {:ok, atom} | {:error, String.t()}
+  @spec classify(integer()) :: {:ok, atom()} | {:error, String.t()}
   def classify(number) when number <= 0, do: {:error, @natural_numbers_error}
   def classify(number), do: number |> aliquot_sum() |> do_classify(number)
 
@@ -19,11 +19,10 @@ defmodule PerfectNumbers do
   defp do_classify(aliquot_sum, number) when number < aliquot_sum, do: {:ok, :abundant}
   defp do_classify(_, _), do: {:ok, :perfect}
 
-  defp aliquot_sum(number) do
-    for n <- 1..number, aliquot?(number, n), reduce: 0 do
-      acc -> acc + n
-    end
-  end
-
-  defp aliquot?(number, n), do: rem(number, n) == 0 and number != n
+  defp aliquot_sum(n, d \\ 2, acc \\ 1)
+  defp aliquot_sum(1, _d, _acc), do: 0
+  defp aliquot_sum(n, d, acc) when d * d > n, do: acc
+  defp aliquot_sum(n, d, acc) when d * d == n, do: acc + d
+  defp aliquot_sum(n, d, acc) when rem(n, d) == 0, do: aliquot_sum(n, d + 1, acc + d + div(n, d))
+  defp aliquot_sum(n, d, acc), do: aliquot_sum(n, d + 1, acc)
 end
