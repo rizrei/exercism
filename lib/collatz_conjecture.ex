@@ -9,9 +9,8 @@ defmodule CollatzConjecture do
   """
 
   @spec calc(pos_integer()) :: non_neg_integer()
-  def calc(input) when is_integer(input) and input > 0, do: do_calc(input, 0)
+  def calc(input) when input > 0, do: do_calc(input, 0)
 
-  @spec do_calc(pos_integer(), non_neg_integer()) :: non_neg_integer()
   defp do_calc(1, counter), do: counter
   defp do_calc(input, counter) when is_odd(input), do: do_calc(input * 3 + 1, counter + 1)
   defp do_calc(input, counter) when is_even(input), do: do_calc(div(input, 2), counter + 1)
