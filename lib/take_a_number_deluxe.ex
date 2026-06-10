@@ -10,7 +10,7 @@ defmodule TakeANumberDeluxe do
   @spec start_link(keyword()) :: {:ok, pid()} | {:error, atom()}
   def start_link(keywords), do: GenServer.start_link(__MODULE__, keywords)
 
-  @spec report_state(pid()) :: TakeANumberDeluxe.State.t()
+  @spec report_state(pid()) :: State.t()
   def report_state(machine), do: GenServer.call(machine, :report_state)
 
   @spec queue_new_number(pid()) :: {:ok, integer()} | {:error, atom()}
@@ -26,7 +26,7 @@ defmodule TakeANumberDeluxe do
 
   # Server callbacks
 
-  @impl GenServer
+  @impl true
   def init(keywords) do
     with min_number <- Keyword.get(keywords, :min_number),
          max_number <- Keyword.get(keywords, :max_number),
@@ -38,11 +38,11 @@ defmodule TakeANumberDeluxe do
     end
   end
 
-  @impl GenServer
+  @impl true
   def handle_call(:report_state, _from, state),
     do: {:reply, state, state, state.auto_shutdown_timeout}
 
-  @impl GenServer
+  @impl true
   def handle_call(:queue_new_number, _from, state) do
     case State.queue_new_number(state) do
       {:ok, next_number, new_state} ->
@@ -53,7 +53,7 @@ defmodule TakeANumberDeluxe do
     end
   end
 
-  @impl GenServer
+  @impl true
   def handle_call({:serve_next_queued_number, priority_number}, _from, state) do
     case State.serve_next_queued_number(state, priority_number) do
       {:ok, next_number, new_state} ->
@@ -64,7 +64,7 @@ defmodule TakeANumberDeluxe do
     end
   end
 
-  @impl GenServer
+  @impl true
   def handle_cast(
         :reset_state,
         %State{
@@ -79,9 +79,9 @@ defmodule TakeANumberDeluxe do
     end
   end
 
-  @impl GenServer
+  @impl true
   def handle_info(:timeout, state), do: {:stop, :normal, state}
 
-  @impl GenServer
+  @impl true
   def handle_info(_, state), do: {:noreply, state, state.auto_shutdown_timeout}
 end
