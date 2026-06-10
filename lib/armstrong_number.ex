@@ -5,11 +5,11 @@ defmodule ArmstrongNumber do
 
   @spec valid?(integer()) :: boolean()
   def valid?(number) do
-    digits_count = number |> Integer.digits() |> Enum.count()
+    digits = Integer.digits(number)
+    digits_count = Enum.count(digits)
 
-    number
-    |> Integer.digits()
+    digits
     |> Enum.reduce(0, fn n, acc -> acc + n ** digits_count end)
-    |> Kernel.==(number)
+    |> then(&(&1 == number))
   end
 end
