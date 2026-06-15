@@ -2,11 +2,14 @@ defmodule SumOfMultiples do
   @moduledoc """
   Adds up all numbers from 1 to a given end number that are multiples of the factors provided.
   """
-  @spec to(non_neg_integer, [non_neg_integer]) :: non_neg_integer
+  @spec to(non_neg_integer(), [non_neg_integer()]) :: non_neg_integer()
   def to(limit, factors) do
-    factors |> Enum.map(&energy_points(&1, limit)) |> List.flatten() |> Enum.uniq() |> Enum.sum()
-  end
+    factors = Enum.filter(factors, &(&1 != 0))
 
-  defp energy_points(0, _), do: [0]
-  defp energy_points(start, limit), do: start..(limit - 1)//start |> Enum.to_list()
+    for x <- Range.new(1, limit - 1),
+        Enum.any?(factors, &(rem(x, &1) == 0)),
+        reduce: 0 do
+      acc -> x + acc
+    end
+  end
 end
