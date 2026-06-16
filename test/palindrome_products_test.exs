@@ -15,7 +15,7 @@ defmodule PalindromeProductsTest do
 
   test "smallest palindrome from double digit factors" do
     palindromes = PalindromeProducts.generate(99, 10)
-    assert palindromes |> Map.keys() |> Enum.sort() |> hd == 121
+    assert palindromes |> Map.keys() |> Enum.sort() |> hd() == 121
     assert palindromes[121] == [[11, 11]]
   end
 
@@ -27,7 +27,7 @@ defmodule PalindromeProductsTest do
 
   test "smallest palindrome from triple digit factors" do
     palindromes = PalindromeProducts.generate(999, 100)
-    assert palindromes |> Map.keys() |> Enum.sort() |> hd == 10201
+    assert palindromes |> Map.keys() |> Enum.sort() |> hd() == 10201
     assert palindromes[10201] == [[101, 101]]
   end
 
@@ -40,7 +40,7 @@ defmodule PalindromeProductsTest do
   @tag :slow
   test "smallest palindrome from four digit factors" do
     palindromes = PalindromeProducts.generate(9999, 1000)
-    assert palindromes |> Map.keys() |> Enum.sort() |> hd == 1_002_001
+    assert palindromes |> Map.keys() |> Enum.sort() |> hd() == 1_002_001
     assert palindromes[1_002_001] == [[1001, 1001]]
   end
 
@@ -69,7 +69,7 @@ defmodule PalindromeProductsTest do
 
   test "smallest product does not use the smallest factor" do
     palindromes = PalindromeProducts.generate(4000, 3215)
-    assert palindromes |> Map.keys() |> Enum.sort() |> hd == 10_988_901
+    assert palindromes |> Map.keys() |> Enum.sort() |> hd() == 10_988_901
     assert Enum.sort(palindromes[10_988_901]) == [[3297, 3333]]
   end
 end

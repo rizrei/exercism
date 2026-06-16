@@ -15,8 +15,8 @@ defmodule Markdown do
     m
     |> String.split("\n")
     |> Enum.map_join(&process_line/1)
-    |> process_tags
-    |> add_ul
+    |> process_tags()
+    |> add_ul()
   end
 
   defp process_line("* " <> str), do: "<li>#{str}</li>"

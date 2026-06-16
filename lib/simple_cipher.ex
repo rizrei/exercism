@@ -78,7 +78,7 @@ defmodule SimpleCipher do
   end
 
   defp key_charlist(plaintext, key) do
-    key |> to_charlist |> Stream.cycle() |> Enum.take(String.length(plaintext))
+    key |> to_charlist() |> Stream.cycle() |> Enum.take(String.length(plaintext))
   end
 
   defp encode_cipher_map(char) do

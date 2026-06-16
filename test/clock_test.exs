@@ -17,149 +17,149 @@ defmodule ClockTest do
 
   describe "create" do
     test "on the hour" do
-      assert Clock.new(8, 0) |> to_string == "08:00"
+      assert Clock.new(8, 0) |> to_string() == "08:00"
     end
 
     test "past the hour" do
-      assert Clock.new(11, 9) |> to_string == "11:09"
+      assert Clock.new(11, 9) |> to_string() == "11:09"
     end
 
     test "midnight is zero hours" do
-      assert Clock.new(24, 0) |> to_string == "00:00"
+      assert Clock.new(24, 0) |> to_string() == "00:00"
     end
 
     test "hour rolls over" do
-      assert Clock.new(25, 0) |> to_string == "01:00"
+      assert Clock.new(25, 0) |> to_string() == "01:00"
     end
 
     test "hour rolls over continuously" do
-      assert Clock.new(100, 0) |> to_string == "04:00"
+      assert Clock.new(100, 0) |> to_string() == "04:00"
     end
 
     test "sixty minutes is next hour" do
-      assert Clock.new(1, 60) |> to_string == "02:00"
+      assert Clock.new(1, 60) |> to_string() == "02:00"
     end
 
     test "minutes roll over" do
-      assert Clock.new(0, 160) |> to_string == "02:40"
+      assert Clock.new(0, 160) |> to_string() == "02:40"
     end
 
     test "minutes roll over continuously" do
-      assert Clock.new(0, 1723) |> to_string == "04:43"
+      assert Clock.new(0, 1723) |> to_string() == "04:43"
     end
 
     test "hour and minutes roll over" do
-      assert Clock.new(25, 160) |> to_string == "03:40"
+      assert Clock.new(25, 160) |> to_string() == "03:40"
     end
 
     test "hour and minutes roll over continuously" do
-      assert Clock.new(201, 3001) |> to_string == "11:01"
+      assert Clock.new(201, 3001) |> to_string() == "11:01"
     end
 
     test "hour and minutes roll over to exactly midnight" do
-      assert Clock.new(72, 8640) |> to_string == "00:00"
+      assert Clock.new(72, 8640) |> to_string() == "00:00"
     end
 
     test "negative hour" do
-      assert Clock.new(-1, 15) |> to_string == "23:15"
+      assert Clock.new(-1, 15) |> to_string() == "23:15"
     end
 
     test "negative hour rolls over" do
-      assert Clock.new(-25, 0) |> to_string == "23:00"
+      assert Clock.new(-25, 0) |> to_string() == "23:00"
     end
 
     test "negative hour rolls over continuously" do
-      assert Clock.new(-91, 0) |> to_string == "05:00"
+      assert Clock.new(-91, 0) |> to_string() == "05:00"
     end
 
     test "negative minutes" do
-      assert Clock.new(1, -40) |> to_string == "00:20"
+      assert Clock.new(1, -40) |> to_string() == "00:20"
     end
 
     test "negative minutes roll over" do
-      assert Clock.new(1, -160) |> to_string == "22:20"
+      assert Clock.new(1, -160) |> to_string() == "22:20"
     end
 
     test "negative minutes roll over continuously" do
-      assert Clock.new(1, -4820) |> to_string == "16:40"
+      assert Clock.new(1, -4820) |> to_string() == "16:40"
     end
 
     test "negative sixty minutes is previous hour" do
-      assert Clock.new(2, -60) |> to_string == "01:00"
+      assert Clock.new(2, -60) |> to_string() == "01:00"
     end
 
     test "negative hour and minutes roll over" do
-      assert Clock.new(-25, -160) |> to_string == "20:20"
+      assert Clock.new(-25, -160) |> to_string() == "20:20"
     end
 
     test "negative hour and minutes roll over continuously" do
-      assert Clock.new(-121, -5810) |> to_string == "22:10"
+      assert Clock.new(-121, -5810) |> to_string() == "22:10"
     end
   end
 
   describe "add" do
     test "add minutes" do
-      assert Clock.new(10, 0) |> Clock.add(3) |> to_string == "10:03"
+      assert Clock.new(10, 0) |> Clock.add(3) |> to_string() == "10:03"
     end
 
     test "add no minutes" do
-      assert Clock.new(6, 41) |> Clock.add(0) |> to_string == "06:41"
+      assert Clock.new(6, 41) |> Clock.add(0) |> to_string() == "06:41"
     end
 
     test "add to next hour" do
-      assert Clock.new(0, 45) |> Clock.add(40) |> to_string == "01:25"
+      assert Clock.new(0, 45) |> Clock.add(40) |> to_string() == "01:25"
     end
 
     test "add more than one hour" do
-      assert Clock.new(10, 0) |> Clock.add(61) |> to_string == "11:01"
+      assert Clock.new(10, 0) |> Clock.add(61) |> to_string() == "11:01"
     end
 
     test "add more than two hours with carry" do
-      assert Clock.new(0, 45) |> Clock.add(160) |> to_string == "03:25"
+      assert Clock.new(0, 45) |> Clock.add(160) |> to_string() == "03:25"
     end
 
     test "add across midnight" do
-      assert Clock.new(23, 59) |> Clock.add(2) |> to_string == "00:01"
+      assert Clock.new(23, 59) |> Clock.add(2) |> to_string() == "00:01"
     end
 
     test "add more than one day (1500 min = 25 hrs)" do
-      assert Clock.new(5, 32) |> Clock.add(1500) |> to_string == "06:32"
+      assert Clock.new(5, 32) |> Clock.add(1500) |> to_string() == "06:32"
     end
 
     test "add more than two days" do
-      assert Clock.new(1, 1) |> Clock.add(3500) |> to_string == "11:21"
+      assert Clock.new(1, 1) |> Clock.add(3500) |> to_string() == "11:21"
     end
 
     test "subtract minutes" do
-      assert Clock.new(10, 3) |> Clock.add(-3) |> to_string == "10:00"
+      assert Clock.new(10, 3) |> Clock.add(-3) |> to_string() == "10:00"
     end
 
     test "subtract to previous hour" do
-      assert Clock.new(10, 3) |> Clock.add(-30) |> to_string == "09:33"
+      assert Clock.new(10, 3) |> Clock.add(-30) |> to_string() == "09:33"
     end
 
     test "subtract more than an hour" do
-      assert Clock.new(10, 3) |> Clock.add(-70) |> to_string == "08:53"
+      assert Clock.new(10, 3) |> Clock.add(-70) |> to_string() == "08:53"
     end
 
     test "subtract across midnight" do
-      assert Clock.new(0, 3) |> Clock.add(-4) |> to_string == "23:59"
+      assert Clock.new(0, 3) |> Clock.add(-4) |> to_string() == "23:59"
     end
 
     test "subtract more than two hours" do
-      assert Clock.new(0, 0) |> Clock.add(-160) |> to_string == "21:20"
+      assert Clock.new(0, 0) |> Clock.add(-160) |> to_string() == "21:20"
     end
 
     test "subtract more than two hours with borrow" do
-      assert Clock.new(6, 15) |> Clock.add(-160) |> to_string == "03:35"
+      assert Clock.new(6, 15) |> Clock.add(-160) |> to_string() == "03:35"
     end
 
     test "subtract more than one day (1500 min = 25 hrs)" do
-      assert Clock.new(5, 32) |> Clock.add(-1500) |> to_string == "04:32"
+      assert Clock.new(5, 32) |> Clock.add(-1500) |> to_string() == "04:32"
     end
 
     test "subtract more than two days" do
-      assert Clock.new(2, 20) |> Clock.add(-3000) |> to_string == "00:20"
+      assert Clock.new(2, 20) |> Clock.add(-3000) |> to_string() == "00:20"
     end
   end
 

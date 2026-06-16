@@ -21,7 +21,7 @@ defmodule BookStore do
     |> Enum.frequencies()
     |> Map.values()
     |> Enum.sort(:desc)
-    |> do_total
+    |> do_total()
   end
 
   defp do_total([]), do: 0
