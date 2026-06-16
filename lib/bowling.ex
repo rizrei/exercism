@@ -4,138 +4,120 @@ defmodule Bowling do
     Bowling.Frame struct
     """
 
-    defstruct number: nil, rolls: [], closed: false, status: nil
+    defstruct [:number, rolls: [], closed: false, status: nil]
 
     @type t() :: %__MODULE__{
-            number: pos_integer() | nil,
-            rolls: list(pos_integer()),
+            number: pos_integer(),
+            rolls: [pos_integer()],
             closed: boolean(),
             status: :open_frame | :strike | :spare | nil
           }
 
-    @errors %{
-      negative_roll: "Negative roll is invalid",
-      invalid_pin_count: "Pin count exceeds pins on the lane",
-      closed_frame: "Frame already closed"
-    }
-
-    defguardp last_frame?(n) when n == 10
-    defguardp strike?(roll) when roll == 10
-    defguardp invalid_roll?(roll, prev_roll) when not strike?(prev_roll) and roll + prev_roll > 10
+    @spec new(pos_integer()) :: t()
+    def new(number), do: %__MODULE__{number: number}
 
     @spec add_roll(t(), pos_integer()) :: {:ok, t()} | {:error, String.t()}
-    def add_roll(_, r) when r < 0, do: {:error, @errors.negative_roll}
-    def add_roll(_, r) when r > 10, do: {:error, @errors.invalid_pin_count}
-    def add_roll(%{closed: true}, _), do: {:error, @errors.closed_frame}
-
-    def add_roll(%{rolls: [prev_roll]}, roll) when invalid_roll?(roll, prev_roll),
-      do: {:error, @errors.invalid_pin_count}
-
-    def add_roll(%{rolls: [prev_roll, 10]}, roll) when invalid_roll?(roll, prev_roll),
-      do: {:error, @errors.invalid_pin_count}
-
     def add_roll(%{rolls: [r1]} = frame, r) when r + r1 < 10,
       do: {:ok, %{frame | rolls: [r, r1], closed: true, status: :open_frame}}
-
-    def add_roll(%{number: n, rolls: []} = frame, 10) when not last_frame?(n),
-      do: {:ok, %{frame | rolls: [10], closed: true, status: :strike}}
-
-    def add_roll(%{rolls: [10, 10]} = frame, 10),
-      do: {:ok, %{frame | rolls: [10, 10, 10], closed: true, status: :strike}}
-
-    def add_roll(%{number: n, rolls: [r1]} = frame, r) when not last_frame?(n),
-      do: {:ok, %{frame | rolls: [r, r1], closed: true, status: :spare}}
 
     def add_roll(%{rolls: [_, _] = rolls} = frame, r),
       do: {:ok, %{frame | rolls: [r | rolls], closed: true, status: :spare}}
 
+    def add_roll(%{number: n, rolls: [r1]} = frame, r) when n != 10 and r + r1 == 10,
+      do: {:ok, %{frame | rolls: [r, r1], closed: true, status: :spare}}
+
+    def add_roll(%{rolls: [10, 10]} = frame, 10),
+      do: {:ok, %{frame | rolls: [10, 10, 10], closed: true, status: :strike}}
+
+    def add_roll(%{number: n, rolls: []} = frame, 10) when n != 10,
+      do: {:ok, %{frame | rolls: [10], closed: true, status: :strike}}
+
     def add_roll(%{rolls: rolls} = frame, r), do: {:ok, %{frame | rolls: [r | rolls]}}
+
+    def last?(%{number: number}), do: number == 10
   end
 
-  defmodule Game do
-    @moduledoc """
-    Bowling.Frame struct
-    """
-    alias Bowling.Frame
+  alias Bowling.Frame
 
-    defstruct frames: []
+  defstruct frames: []
 
-    @type t() :: %__MODULE__{frames: [Frame.t()]}
+  @errors %{
+    invalid_roll: "Negative roll is invalid",
+    invalid_pin_count: "Pin count exceeds pins on the lane",
+    game_over: "Cannot roll after game is over"
+  }
 
-    @spec roll(t(), integer()) :: {:ok, t()} | {:error, String.t()}
-    def roll(%Game{frames: [%Frame{number: 10, closed: true} | _]}, _),
-      do: {:error, "Cannot roll after game is over"}
+  @type t() :: %__MODULE__{frames: [Frame.t()]}
 
-    def roll(%Game{frames: []} = game, roll) do
-      case Frame.add_roll(%Frame{number: 1}, roll) do
-        {:ok, frame} -> {:ok, %Game{game | frames: [frame]}}
-        error -> error
-      end
-    end
+  @spec start() :: t()
+  def start(), do: %__MODULE__{}
 
-    def roll(%Game{frames: [%Frame{number: n, closed: true} | _] = frames} = game, roll) do
-      case Frame.add_roll(%Frame{number: n + 1}, roll) do
-        {:ok, frame} -> {:ok, %Game{game | frames: [frame | frames]}}
-        error -> error
-      end
-    end
-
-    def roll(%Game{frames: [frame | frames]} = game, roll) do
-      case Frame.add_roll(frame, roll) do
-        {:ok, frame} -> {:ok, %Game{game | frames: [frame | frames]}}
-        error -> error
-      end
-    end
-
-    @spec score(t()) :: {:ok, integer()} | {:error, String.t()}
-    def score(%Game{frames: [%Frame{number: 10, closed: true} | _] = frames}) do
-      frames
-      |> Enum.reverse()
-      |> frames_score(0)
-    end
-
-    def score(%Game{}), do: {:error, "Score cannot be taken until the end of the game"}
-
-    defp frames_score([%{rolls: rolls}], score), do: {:ok, score + Enum.sum(rolls)}
-
-    defp frames_score([%{rolls: rolls, status: :open_frame} | t_frames], score) do
-      frames_score(t_frames, Enum.sum(rolls) + score)
-    end
-
-    defp frames_score([%{status: :strike} | t_frames], score) do
-      score =
-        t_frames
-        |> Stream.flat_map(&Enum.reverse(&1.rolls))
-        |> Enum.take(2)
-        |> Enum.sum()
-        |> Kernel.+(10)
-        |> Kernel.+(score)
-
-      frames_score(t_frames, score)
-    end
-
-    defp frames_score([%{rolls: rolls, status: :spare} | [%{rolls: n_rolls} | _] = t], score) do
-      score =
-        n_rolls
-        |> Enum.take(-1)
-        |> Kernel.++(rolls)
-        |> Enum.sum()
-        |> Kernel.+(score)
-
-      frames_score(t, score)
+  @spec roll(t(), integer()) :: {:ok, t()} | {:error, String.t()}
+  def roll(bowling, roll) do
+    with :ok <- validate_game_over(bowling),
+         :ok <- validate_roll(roll),
+         :ok <- validate_pin_count(bowling, roll),
+         frame = build_frame(bowling),
+         {:ok, frame} <- Frame.add_roll(frame, roll),
+         bowling = update_frames(bowling, frame) do
+      {:ok, bowling}
     end
   end
 
-  @moduledoc """
-  Bowling GenServer
-  """
+  @spec score(t()) :: {:ok, integer()} | {:error, String.t()}
+  def score(%{frames: [%Frame{number: 10, closed: true} | _] = frames}) do
+    frames
+    |> Enum.map(& &1.rolls)
+    |> do_score([], 0)
+    |> then(&{:ok, &1})
+  end
 
-  @spec start() :: Game.t()
-  def start(), do: %Game{}
+  def score(%{}), do: {:error, "Score cannot be taken until the end of the game"}
 
-  @spec score(Game.t()) :: {:ok, integer()} | {:error, String.t()}
-  def score(game), do: Game.score(game)
+  defp build_frame(%{frames: []}), do: Frame.new(1)
+  defp build_frame(%{frames: [%{number: n, closed: true} | _]}), do: Frame.new(n + 1)
+  defp build_frame(%{frames: [frame | _]}), do: frame
 
-  @spec roll(Game.t(), integer()) :: {:ok, Game.t()} | {:error, String.t()}
-  def roll(game, roll), do: Game.roll(game, roll)
+  defp validate_game_over(%{frames: [%{number: 10, closed: true} | _]}) do
+    {:error, @errors.game_over}
+  end
+
+  defp validate_game_over(_), do: :ok
+
+  defp validate_roll(roll) when roll < 0, do: {:error, @errors.invalid_roll}
+  defp validate_roll(_), do: :ok
+
+  defp validate_pin_count(_, roll) when roll > 10, do: {:error, @errors.invalid_pin_count}
+
+  defp validate_pin_count(%{frames: [%{rolls: [r1]} | _]}, r) when r + r1 > 10 and r1 != 10 do
+    {:error, @errors.invalid_pin_count}
+  end
+
+  defp validate_pin_count(%{frames: [%{rolls: [r1, 10]} | _]}, r) when r + r1 > 10 and r1 != 10 do
+    {:error, @errors.invalid_pin_count}
+  end
+
+  defp validate_pin_count(_, _), do: :ok
+
+  defp update_frames(%{frames: [%{number: n} | frames]} = bowling, %{number: n} = frame),
+    do: %{bowling | frames: [frame | frames]}
+
+  defp update_frames(%{frames: frames} = bowling, frame),
+    do: %{bowling | frames: [frame | frames]}
+
+  defp do_score([], _, score), do: score
+
+  defp do_score([[r3, r2, 10] | t], acc, score),
+    do: do_score(t, [10, r2, r3 | acc], score + 10 + r2 + r3)
+
+  defp do_score([[10] | t], [r1, r2 | _] = acc, score),
+    do: do_score(t, [10 | acc], score + 10 + r1 + r2)
+
+  defp do_score([[r3, r2, r1] | t], acc, score),
+    do: do_score(t, [r1, r2, r3 | acc], score + 10 + r3)
+
+  defp do_score([[r2, r1] | t], [r | _] = acc, score) when r1 + r2 == 10,
+    do: do_score(t, [r1, r2 | acc], score + 10 + r)
+
+  defp do_score([[r2, r1] | t], acc, score), do: do_score(t, [r1, r2 | acc], score + r1 + r2)
 end
