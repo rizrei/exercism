@@ -6,7 +6,7 @@ defmodule SumOfMultiples do
   def to(limit, factors) do
     factors = Enum.filter(factors, &(&1 != 0))
 
-    for x <- Range.new(1, limit - 1),
+    for x <- Range.new(1, limit - 1, 1),
         Enum.any?(factors, &(rem(x, &1) == 0)),
         reduce: 0 do
       acc -> x + acc

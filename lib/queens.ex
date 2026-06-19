@@ -4,24 +4,29 @@ defmodule Queens do
   @type position() :: {0..7, 0..7}
   @type t() :: %Queens{black: position(), white: position()}
 
+  @positions 0..7
+
   defguardp is_position(point)
-            when is_tuple(point) and tuple_size(point) == 2 and
-                   elem(point, 0) in 0..7 and
-                   elem(point, 1) in 0..7
+            when is_tuple(point) and
+                   tuple_size(point) == 2 and
+                   elem(point, 0) in @positions and
+                   elem(point, 1) in @positions
+
+  defguardp is_valid_queens(w_pos, b_pos)
+            when is_position(w_pos) and
+                   is_position(b_pos) and
+                   w_pos != b_pos
 
   @doc """
   Creates a new set of Queens
   """
 
   @spec new(Keyword.t()) :: Queens.t()
-  def new(white: w_position, black: b_position)
-      when is_position(w_position) and is_position(b_position) and w_position != b_position do
-    %Queens{white: w_position, black: b_position}
-  end
+  def new(white: w_pos, black: b_pos) when is_valid_queens(w_pos, b_pos),
+    do: %Queens{white: w_pos, black: b_pos}
 
   def new(white: pos) when is_position(pos), do: %Queens{white: pos}
   def new(black: pos) when is_position(pos), do: %Queens{black: pos}
-
   def new(_), do: raise(ArgumentError)
 
   @doc """
@@ -30,8 +35,8 @@ defmodule Queens do
   """
   @spec to_string(Queens.t()) :: String.t()
   def to_string(%Queens{white: white, black: black}) do
-    for x <- 0..7 do
-      for y <- 0..7 do
+    for x <- @positions do
+      for y <- @positions do
         case {x, y} do
           ^black -> "B"
           ^white -> "W"
@@ -50,8 +55,8 @@ defmodule Queens do
   def can_attack?(%Queens{white: white, black: black}), do: black in possible_positions(white)
 
   defp possible_positions({px, py}) do
-    for x <- 0..7,
-        y <- 0..7,
+    for x <- @positions,
+        y <- @positions,
         x == px or y == py or y == py - px + x or y == py + px - x,
         uniq: true,
         do: {x, y}

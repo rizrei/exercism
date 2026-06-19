@@ -3,121 +3,168 @@ defmodule Bowling do
     @moduledoc """
     Bowling.Frame struct
     """
+    @pins 10
 
-    defstruct [:number, rolls: [], closed: false, status: nil]
+    defstruct number: 1, rolls: [], closed: false
 
+    defguard last?(number) when number == 10
+    defguard strike?(roll) when roll == @pins
+    defguard spare?(roll, prev_roll) when roll + prev_roll == @pins
+    defguard open?(roll, prev_roll) when roll + prev_roll < @pins
+    defguard valid_roll?(roll) when roll in 0..@pins
+
+    defguard valid_roll?(roll, prev_roll)
+             when valid_roll?(roll) and (roll + prev_roll <= 10 or strike?(prev_roll))
+
+    @type status() :: :strike | :spare | :open
+
+    @type roll() :: non_neg_integer()
     @type t() :: %__MODULE__{
             number: pos_integer(),
-            rolls: [pos_integer()],
-            closed: boolean(),
-            status: :open_frame | :strike | :spare | nil
+            rolls: [roll()],
+            closed: boolean()
           }
+
+    @spec new() :: t()
+    def new(), do: %__MODULE__{}
 
     @spec new(pos_integer()) :: t()
     def new(number), do: %__MODULE__{number: number}
 
-    @spec add_roll(t(), pos_integer()) :: {:ok, t()} | {:error, String.t()}
-    def add_roll(%{rolls: [r1]} = frame, r) when r + r1 < 10,
-      do: {:ok, %{frame | rolls: [r, r1], closed: true, status: :open_frame}}
+    @spec add_roll(t(), roll()) :: t()
+    def add_roll(%{closed: true} = frame, _), do: frame
+
+    def add_roll(%{rolls: [r1]} = frame, r) when open?(r, r1),
+      do: %{frame | rolls: [r, r1], closed: true}
 
     def add_roll(%{rolls: [_, _] = rolls} = frame, r),
-      do: {:ok, %{frame | rolls: [r | rolls], closed: true, status: :spare}}
+      do: %{frame | rolls: [r | rolls], closed: true}
 
-    def add_roll(%{number: n, rolls: [r1]} = frame, r) when n != 10 and r + r1 == 10,
-      do: {:ok, %{frame | rolls: [r, r1], closed: true, status: :spare}}
+    def add_roll(%{number: n, rolls: [r1]} = frame, r) when spare?(r, r1) and not last?(n),
+      do: %{frame | rolls: [r, r1], closed: true}
 
-    def add_roll(%{rolls: [10, 10]} = frame, 10),
-      do: {:ok, %{frame | rolls: [10, 10, 10], closed: true, status: :strike}}
+    def add_roll(%{number: n, rolls: []} = frame, r) when strike?(r) and not last?(n),
+      do: %{frame | rolls: [@pins], closed: true}
 
-    def add_roll(%{number: n, rolls: []} = frame, 10) when n != 10,
-      do: {:ok, %{frame | rolls: [10], closed: true, status: :strike}}
+    def add_roll(%{rolls: rolls} = frame, r), do: %{frame | rolls: [r | rolls]}
 
-    def add_roll(%{rolls: rolls} = frame, r), do: {:ok, %{frame | rolls: [r | rolls]}}
+    @spec status(t()) :: status() | nil
+    def status(%{rolls: [r2, r1]}) when open?(r2, r1), do: :open
+    def status(%{rolls: [r3, _, _]}) when strike?(r3), do: :strike
+    def status(%{rolls: [r]}) when strike?(r), do: :strike
+    def status(%{rolls: [_, _, _]}), do: :spare
+    def status(%{rolls: [_, _]}), do: :spare
+    def status(_), do: nil
 
-    def last?(%{number: number}), do: number == 10
+    @spec score(t(), next_rolls :: [roll()]) :: non_neg_integer()
+    def score(%{number: n, rolls: rolls}, _) when last?(n), do: Enum.sum(rolls)
+
+    def score(%{rolls: rolls} = frame, [r1, r2 | _]) do
+      case status(frame) do
+        :strike -> Enum.sum([r2, r1 | rolls])
+        :spare -> Enum.sum([r1 | rolls])
+        :open -> Enum.sum(rolls)
+      end
+    end
   end
 
-  alias Bowling.Frame
+  defmodule Validator do
+    import Bowling.Frame
+
+    @spec validate_roll(Bowling.t(), Bowling.Frame.roll()) :: :ok | {:error, atom()}
+    def validate_roll(bowling, roll) do
+      with :ok <- validate_roll(roll),
+           :ok <- validate_game_over(bowling),
+           :ok <- validate_pin_count(bowling, roll) do
+        :ok
+      end
+    end
+
+    defp validate_game_over(%{frames: [frame | _]}) when last?(frame.number) and frame.closed,
+      do: {:error, :game_over}
+
+    defp validate_game_over(_), do: :ok
+
+    defp validate_roll(roll) when roll < 0, do: {:error, :negative_roll}
+    defp validate_roll(roll) when roll > 10, do: {:error, :invalid_pin_count}
+    defp validate_roll(_), do: :ok
+
+    defp validate_pin_count(%{frames: [%{rolls: [r1]} | _]}, r) when not valid_roll?(r, r1) do
+      {:error, :invalid_pin_count}
+    end
+
+    defp validate_pin_count(%{frames: [%{rolls: [r1, 10]} | _]}, r) when not valid_roll?(r, r1) do
+      {:error, :invalid_pin_count}
+    end
+
+    defp validate_pin_count(_, _), do: :ok
+  end
+
+  defmodule Score do
+    import Bowling.Frame, only: [last?: 1]
+
+    @spec calculate(Bowling.t()) :: {:ok, non_neg_integer()} | {:error, :score_unavailable}
+    def calculate(bowling) do
+      with :ok <- validate(bowling),
+           score = do_score(bowling.frames, [], 0) do
+        {:ok, score}
+      end
+    end
+
+    defp validate(%{frames: [frame | _]}) when last?(frame.number) and frame.closed, do: :ok
+    defp validate(_), do: {:error, :score_unavailable}
+
+    defp do_score([], _rolls, score), do: score
+
+    defp do_score([frame | frames], rolls, score) do
+      do_score(frames, Enum.reverse(frame.rolls) ++ rolls, score + Frame.score(frame, rolls))
+    end
+  end
 
   defstruct frames: []
 
   @errors %{
-    invalid_roll: "Negative roll is invalid",
+    negative_roll: "Negative roll is invalid",
     invalid_pin_count: "Pin count exceeds pins on the lane",
-    game_over: "Cannot roll after game is over"
+    game_over: "Cannot roll after game is over",
+    score_unavailable: "Score cannot be taken until the end of the game"
   }
 
   @type t() :: %__MODULE__{frames: [Frame.t()]}
 
   @spec start() :: t()
-  def start(), do: %__MODULE__{}
+  def start(), do: %__MODULE__{frames: [Frame.new()]}
 
   @spec roll(t(), integer()) :: {:ok, t()} | {:error, String.t()}
   def roll(bowling, roll) do
-    with :ok <- validate_game_over(bowling),
-         :ok <- validate_roll(roll),
-         :ok <- validate_pin_count(bowling, roll),
-         frame = build_frame(bowling),
-         {:ok, frame} <- Frame.add_roll(frame, roll),
-         bowling = update_frames(bowling, frame) do
+    with :ok <- Validator.validate_roll(bowling, roll),
+         frame = bowling |> build_frame() |> Frame.add_roll(roll),
+         bowling = update_bowling(bowling, frame) do
       {:ok, bowling}
+    else
+      {:error, error} -> {:error, @errors[error]}
     end
   end
 
   @spec score(t()) :: {:ok, integer()} | {:error, String.t()}
-  def score(%{frames: [%Frame{number: 10, closed: true} | _] = frames}) do
-    frames
-    |> Enum.map(& &1.rolls)
-    |> do_score([], 0)
-    |> then(&{:ok, &1})
+  def score(bowling) do
+    case Score.calculate(bowling) do
+      {:ok, score} -> {:ok, score}
+      {:error, error} -> {:error, @errors[error]}
+    end
   end
 
-  def score(%{}), do: {:error, "Score cannot be taken until the end of the game"}
-
-  defp build_frame(%{frames: []}), do: Frame.new(1)
   defp build_frame(%{frames: [%{number: n, closed: true} | _]}), do: Frame.new(n + 1)
   defp build_frame(%{frames: [frame | _]}), do: frame
 
-  defp validate_game_over(%{frames: [%{number: 10, closed: true} | _]}) do
-    {:error, @errors.game_over}
+  defp update_bowling(bowling, frame) do
+    bowling
+    |> update_bowling_frames(frame)
   end
 
-  defp validate_game_over(_), do: :ok
-
-  defp validate_roll(roll) when roll < 0, do: {:error, @errors.invalid_roll}
-  defp validate_roll(_), do: :ok
-
-  defp validate_pin_count(_, roll) when roll > 10, do: {:error, @errors.invalid_pin_count}
-
-  defp validate_pin_count(%{frames: [%{rolls: [r1]} | _]}, r) when r + r1 > 10 and r1 != 10 do
-    {:error, @errors.invalid_pin_count}
-  end
-
-  defp validate_pin_count(%{frames: [%{rolls: [r1, 10]} | _]}, r) when r + r1 > 10 and r1 != 10 do
-    {:error, @errors.invalid_pin_count}
-  end
-
-  defp validate_pin_count(_, _), do: :ok
-
-  defp update_frames(%{frames: [%{number: n} | frames]} = bowling, %{number: n} = frame),
+  defp update_bowling_frames(%{frames: [%{number: n} | frames]} = bowling, %{number: n} = frame),
     do: %{bowling | frames: [frame | frames]}
 
-  defp update_frames(%{frames: frames} = bowling, frame),
+  defp update_bowling_frames(%{frames: frames} = bowling, frame),
     do: %{bowling | frames: [frame | frames]}
-
-  defp do_score([], _, score), do: score
-
-  defp do_score([[r3, r2, 10] | t], acc, score),
-    do: do_score(t, [10, r2, r3 | acc], score + 10 + r2 + r3)
-
-  defp do_score([[10] | t], [r1, r2 | _] = acc, score),
-    do: do_score(t, [10 | acc], score + 10 + r1 + r2)
-
-  defp do_score([[r3, r2, r1] | t], acc, score),
-    do: do_score(t, [r1, r2, r3 | acc], score + 10 + r3)
-
-  defp do_score([[r2, r1] | t], [r | _] = acc, score) when r1 + r2 == 10,
-    do: do_score(t, [r1, r2 | acc], score + 10 + r)
-
-  defp do_score([[r2, r1] | t], acc, score), do: do_score(t, [r1, r2 | acc], score + r1 + r2)
 end
