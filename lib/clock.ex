@@ -33,7 +33,7 @@ defmodule Clock do
 
   defimpl String.Chars do
     def to_string(%Clock{hour: h, minute: m}) do
-      "~2..0w:~2..0w" |> :io_lib.format([h, m]) |> Kernel.to_string()
+      "~2..0B:~2..0B" |> :io_lib.format([h, m]) |> Kernel.to_string()
     end
   end
 end
