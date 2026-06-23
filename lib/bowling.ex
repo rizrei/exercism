@@ -1,55 +1,47 @@
 defmodule Bowling do
-  alias Bowling.{Frame, Roll, Score}
+  alias Bowling.{Frame, Score}
 
-  import Bowling.Frame, only: [last?: 1]
+  import Bowling.Frame, only: [is_last: 1, is_closed: 1]
 
-  defstruct [:score, frame: %Frame{}]
-  @type t() :: %__MODULE__{frame: Frame.t()}
+  defguardp is_game_over(frame) when is_last(frame) and is_closed(frame)
 
+  defstruct frame: %Frame{}, score: %Score{}
+  @type t() :: %__MODULE__{frame: Frame.t(), score: %Score{}}
+
+  @min_roll 0
+  @max_roll 10
   @errors %{
     value_lt_min: "Negative roll is invalid",
     value_gt_max: "Pin count exceeds pins on the lane",
     invalid_pins_count: "Pin count exceeds pins on the lane",
-    frame_closed: "Cannot roll after game is over",
-    invalid_frame_number: "Cannot roll after game is over",
+    game_over: "Cannot roll after game is over",
     score_unavailable: "Score cannot be taken until the end of the game"
   }
 
   @spec start() :: t()
-  def start() do
-    {:ok, score} = Score.start_link()
-    %__MODULE__{score: score}
-  end
+  def start(), do: %__MODULE__{}
+
+  @spec score(t()) :: {:ok, integer()} | {:error, String.t()}
+  def score(%{score: score, frame: frame}) when is_game_over(frame), do: {:ok, score.value}
+  def score(_), do: {:error, @errors[:score_unavailable]}
 
   @spec roll(t(), integer()) :: {:ok, t()} | {:error, String.t()}
   def roll(bowling, roll) do
-    with {:ok, roll} <- build_roll(bowling, roll),
-         {:ok, frame} <- build_frame(bowling),
+    with {:ok, frame} <- build_frame(bowling),
+         {:ok, roll} <- validate_roll(roll),
          {:ok, frame} <- Frame.add_roll(frame, roll),
-         Score.increase(bowling.score, frame) do
-      {:ok, %{bowling | frame: frame}}
+         {:ok, score} <- Score.increase(bowling.score, frame) do
+      {:ok, %{bowling | frame: frame, score: score}}
     else
       {:error, error} -> {:error, @errors[error]}
     end
   end
 
-  defp build_roll(%{frame: frame}, value) do
-    case Frame.last_roll(frame) do
-      %Roll{number: number} -> Roll.new(number + 1, value)
-      nil -> Roll.new(1, value)
-    end
-  end
+  defp validate_roll(roll) when roll > @max_roll, do: {:error, :value_gt_max}
+  defp validate_roll(roll) when roll < @min_roll, do: {:error, :value_lt_min}
+  defp validate_roll(roll), do: {:ok, roll}
 
-  defp build_frame(%{frame: frame}) when last?(frame.number) and frame.closed,
-    do: {:error, :frame_closed}
-
-  defp build_frame(%{frame: frame}) when frame.closed, do: {:ok, Frame.new(frame.number + 1)}
+  defp build_frame(%{frame: frame}) when is_game_over(frame), do: {:error, :game_over}
+  defp build_frame(%{frame: frame}) when is_closed(frame), do: {:ok, Frame.next(frame)}
   defp build_frame(%{frame: frame}), do: {:ok, frame}
-
-  @spec score(t()) :: {:ok, integer()} | {:error, String.t()}
-  def score(%{score: score, frame: frame}) when last?(frame.number) and frame.closed do
-    {:ok, Score.value(score)}
-  end
-
-  def score(_), do: {:error, @errors[:score_unavailable]}
 end
