@@ -1,6 +1,6 @@
 defmodule Triangle do
-  defguard is_positive_sides(a, b, c) when a > 0 and b > 0 and c > 0
-  defguard is_valid_triangle(a, b, c) when abs(a - b) < c and c < a + b
+  defguardp is_positive_sides(a, b, c) when a > 0 and b > 0 and c > 0
+  defguardp is_valid_triangle(a, b, c) when abs(a - b) < c and c < a + b
 
   @type kind :: :equilateral | :isosceles | :scalene
 
