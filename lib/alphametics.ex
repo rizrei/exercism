@@ -1,5 +1,5 @@
 defmodule Alphametics do
-  @type puzzle :: String.t()
+  @type puzzle :: binary
   @type solution :: %{required(?A..?Z) => 0..9}
 
   @doc """
@@ -15,47 +15,55 @@ defmodule Alphametics do
       iex> Alphametics.solve("A == B")
       nil
   """
-
-  @spec solve(puzzle()) :: solution() | nil
+  @spec solve(puzzle) :: solution | nil
   def solve(puzzle) do
-    {total, terms} =
-      puzzle
-      |> String.split(~r/ \+ | \=\= /)
-      |> Enum.map(&to_charlist/1)
-      |> List.pop_at(-1)
+    [sum | addends] = words = parse(puzzle)
+    letters = words |> List.flatten() |> Enum.uniq()
+    first_letters = words |> Enum.map(&hd/1) |> Enum.uniq()
+    problem = %{addends: addends, sum: sum, first_letters: first_letters}
 
-    leading_chars = [hd(total) | Enum.map(terms, &hd/1)] |> Enum.uniq()
-
-    rest_chars =
-      for <<char <- puzzle>>, char in ?A..?Z, char not in leading_chars, uniq: true, do: char
-
-    leading_chars
-    |> permutations(rest_chars)
-    |> Enum.find(&valid?(&1, terms, total))
+    solve(letters, Enum.to_list(0..9), %{}, problem)
   end
 
-  defp permutations(leading, letters, taken \\ [])
-  defp permutations([], [], _taken), do: [%{}]
-
-  defp permutations([head | leading], letters, taken) do
-    for val <- Enum.to_list(1..9) -- taken,
-        perm <- permutations(leading, letters, [val | taken]) do
-      Map.put(perm, head, val)
-    end
+  defp solve([], _numbers, solution, problem) do
+    if valid?(solution, problem), do: solution
   end
 
-  defp permutations([], [head | letters], taken) do
-    for val <- Enum.to_list(0..9) -- taken,
-        perm <- permutations([], letters, [val | taken]) do
-      Map.put(perm, head, val)
-    end
+  defp solve([letter | letters], numbers, solution, problem) do
+    Enum.find_value(numbers, fn number ->
+      leading_zero? = number == 0 and letter in problem.first_letters
+
+      unless leading_zero? do
+        numbers = List.delete(numbers, number)
+        solution = put_in(solution[letter], number)
+        solve(letters, numbers, solution, problem)
+      end
+    end)
   end
 
-  defp valid?(solution, terms, total) do
-    to_int(total, solution) == terms |> Enum.map(&to_int(&1, solution)) |> Enum.sum()
+  def valid?(solution, %{addends: addends, sum: sum}),
+    do: sum(addends, solution) == to_number(sum, solution)
+
+  defp sum(addends, solution) do
+    Enum.reduce(addends, 0, fn addend, sum -> sum + to_number(addend, solution) end)
   end
 
-  defp to_int(chars, solution) do
-    Enum.reduce(chars, 0, fn char, n -> 10 * n + Map.get(solution, char) end)
+  defp to_number(letters, numbers) do
+    letters
+    |> Enum.map(&numbers[&1])
+    |> Integer.undigits()
+  end
+
+  defp parse(puzzle) do
+    [left, right] = String.split(puzzle, " == ")
+
+    addends =
+      left
+      |> String.split(" + ")
+      |> Enum.map(&String.to_charlist/1)
+
+    sum = String.to_charlist(right)
+
+    [sum | addends]
   end
 end
