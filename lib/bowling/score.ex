@@ -1,15 +1,11 @@
 defmodule Bowling.Score do
   alias Bowling.Frame
 
-  import Frame, only: [is_rolls_empty: 1]
-
   defstruct bonus: 0, value: 0
 
   @type t() :: %__MODULE__{bonus: non_neg_integer(), value: non_neg_integer()}
 
   @spec increase(t(), Frame.t()) :: {:ok, t()}
-  def increase(score, frame) when is_rolls_empty(frame), do: {:ok, score}
-
   def increase(score, frame) do
     {multiplier, bonus} =
       case score.bonus do
@@ -17,9 +13,11 @@ defmodule Bowling.Score do
         n -> {n, 1}
       end
 
+    last_roll = Frame.last_roll(frame) || 0
+
     %{
       score
-      | value: score.value + Frame.last_roll(frame) * multiplier,
+      | value: score.value + last_roll * multiplier,
         bonus: bonus + frame_bonus(frame)
     }
     |> then(&{:ok, &1})
