@@ -1,29 +1,28 @@
 defmodule Bowling.Score do
   alias Bowling.Frame
 
+  require Frame
+
   defstruct bonus: 0, value: 0
 
-  @type t() :: %__MODULE__{bonus: non_neg_integer(), value: non_neg_integer()}
+  @opaque t() :: %__MODULE__{bonus: non_neg_integer(), value: non_neg_integer()}
 
-  @spec increase(t(), Frame.t()) :: {:ok, t()}
+  @spec new() :: t()
+  def new, do: %__MODULE__{}
+
+  @spec increase(t(), Frame.t()) :: t()
+  def increase(score, frame) when Frame.is_empty(frame), do: score
+
   def increase(score, frame) do
-    {multiplier, bonus} =
-      case score.bonus do
-        b when b in [0, 1] -> {b + 1, 0}
-        n -> {n, 1}
-      end
-
-    last_roll = Frame.last_roll(frame) || 0
+    {multiplier, current_bonus} = multiplier(score)
 
     %{
       score
-      | value: score.value + last_roll * multiplier,
-        bonus: bonus + frame_bonus(frame)
+      | value: score.value + Frame.last_roll(frame) * multiplier,
+        bonus: current_bonus + Frame.bonus(frame)
     }
-    |> then(&{:ok, &1})
   end
 
-  def frame_bonus(frame) when frame.status == :strike, do: 2
-  def frame_bonus(frame) when frame.status == :spare, do: 1
-  def frame_bonus(_), do: 0
+  defp multiplier(%{bonus: b}) when b in [0, 1], do: {b + 1, 0}
+  defp multiplier(%{bonus: b}), do: {b, 1}
 end
