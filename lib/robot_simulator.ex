@@ -1,6 +1,7 @@
 defmodule RobotSimulator do
   defmodule Robot do
-    defstruct position: {0, 0}, direction: :north
+    @enforce_keys [:position, :direction]
+    defstruct [:position, :direction]
 
     @type direction() :: :north | :east | :south | :west
     @type position() :: {integer(), integer()}
@@ -12,28 +13,28 @@ defmodule RobotSimulator do
     @advances %{north: {0, 1}, east: {1, 0}, south: {0, -1}, west: {-1, 0}}
 
     @spec new(direction(), position()) :: t() | {:error, String.t()}
-    def new(direction, position) do
-      with {:ok, position} <- validate_position(position),
-           {:ok, direction} <- validate_direction(direction) do
+    def new(direction \\ :north, position \\ {0, 0}) do
+      with {:ok, position} <- build_position(position),
+           {:ok, direction} <- build_direction(direction) do
         %__MODULE__{position: position, direction: direction}
       end
     end
 
-    @spec execute(Robot.t(), String.t()) :: t() | {:error, String.t()}
-    def execute(%Robot{direction: dir} = r, "R"), do: %{r | direction: @rotate_right[dir]}
-    def execute(%Robot{direction: dir} = r, "L"), do: %{r | direction: @rotate_left[dir]}
+    @spec execute(Robot.t(), String.t()) :: {:ok, t()} | {:error, String.t()}
+    def execute(%{direction: dir} = r, "R"), do: {:ok, %{r | direction: @rotate_right[dir]}}
+    def execute(%{direction: dir} = r, "L"), do: {:ok, %{r | direction: @rotate_left[dir]}}
 
-    def execute(%Robot{direction: dir, position: {x, y}} = r, "A") do
-      %{r | position: position_advance({x, y}, @advances[dir])}
+    def execute(%{direction: dir, position: position} = r, "A") do
+      {:ok, %{r | position: position_advance(position, @advances[dir])}}
     end
 
     def execute(_, _), do: {:error, "invalid instruction"}
 
-    defp validate_direction(direction) when direction in @directions, do: {:ok, direction}
-    defp validate_direction(_), do: {:error, "invalid direction"}
+    defp build_direction(direction) when direction in @directions, do: {:ok, direction}
+    defp build_direction(_), do: {:error, "invalid direction"}
 
-    defp validate_position({x, y}) when is_integer(x) and is_integer(y), do: {:ok, {x, y}}
-    defp validate_position(_), do: {:error, "invalid position"}
+    defp build_position({x, y}) when is_integer(x) and is_integer(y), do: {:ok, {x, y}}
+    defp build_position(_), do: {:error, "invalid position"}
 
     defp position_advance({x, y}, {dx, dy}), do: {x + dx, y + dy}
   end
@@ -44,7 +45,7 @@ defmodule RobotSimulator do
   Valid directions are: `:north`, `:east`, `:south`, `:west`
   """
   @spec create() :: Robot.t()
-  def create, do: %Robot{}
+  def create, do: Robot.new()
 
   @spec create(Robot.direction(), Robot.position()) :: Robot.t() | {:error, String.t()}
   def create(direction, position), do: Robot.new(direction, position)
@@ -60,8 +61,8 @@ defmodule RobotSimulator do
     |> String.graphemes()
     |> Enum.reduce_while(robot, fn instruction, acc ->
       case Robot.execute(acc, instruction) do
+        {:ok, new_robot} -> {:cont, new_robot}
         {:error, _} = error -> {:halt, error}
-        new_robot -> {:cont, new_robot}
       end
     end)
   end
@@ -72,11 +73,11 @@ defmodule RobotSimulator do
   Valid directions are: `:north`, `:east`, `:south`, `:west`
   """
   @spec direction(Robot.t()) :: Robot.direction()
-  def direction(%Robot{direction: direction}), do: direction
+  def direction(robot), do: robot.direction
 
   @doc """
   Return the robot's position.
   """
   @spec position(Robot.t()) :: Robot.position()
-  def position(%Robot{position: position}), do: position
+  def position(robot), do: robot.position
 end

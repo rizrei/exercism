@@ -8,12 +8,12 @@ defmodule PalindromeProducts do
   def generate(max, min) when min > max, do: raise(ArgumentError)
 
   def generate(max_factor, min_factor) do
-    for x <- min_factor..max_factor,
-        y <- x..max_factor,
-        product = x * y,
+    for f1 <- min_factor..max_factor,
+        f2 <- f1..max_factor,
+        product = f1 * f2,
         palindrome?(product),
         reduce: %{} do
-      acc -> Map.update(acc, product, [[x, y]], &[[x, y] | &1])
+      acc -> Map.update(acc, product, [[f1, f2]], &[[f1, f2] | &1])
     end
   end
 
